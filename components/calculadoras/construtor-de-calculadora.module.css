@@ -1,0 +1,20 @@
+.containerEntrada {
+    border-bottom: 1px solid #9aa6b2
+}
+
+.resultadoAnother {
+    /* background-color: #EFB036; */
+    background-color: #bcccdc;
+    border-radius: 3%;
+}
+
+.resultadoContainer {
+    box-shadow: 0 -1.5px 4px rgba(0, 0, 0, .5);
+    background-color: #EFB036;
+    border-radius: 3%;
+}
+
+.calcActive{
+    background-color: #bcccdc !important
+
+}

@@ -1,0 +1,9 @@
+.sidebar > ul > li > a  {
+    text-decoration: none;
+    color: black;
+
+}
+
+.sidebar{
+    border-right: 1px solid #9aa6b2;
+}

@@ -1,0 +1,26 @@
+/* Deixei de lado por ora, ficou feio e tá dificil */
+
+.btnCustom{
+    /* background-color: #bcccdc !important; */
+    border-color: #bcccdc !important;
+    border:solid  !important;
+    border-width: 1px !important
+}
+
+.btnCustom:hover{
+    background-color: #9aa6b2 !important;
+    border-color: #bcccdc !important;
+    border:solid  !important;
+    border-width: 1px !important
+
+}
+
+.btnCustomActive{
+    background-color: #9aa6b2 !important;
+    border-color: #bcccdc !important;
+    border:solid  !important;
+    border-width: 1px !important
+}
+
+
+

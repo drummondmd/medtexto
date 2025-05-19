@@ -1,0 +1,8 @@
+.erroUsuario{
+    background: #ffebe8;
+    border: 1px solid #dd3c10;
+    line-height: 15px;
+    margin: 12px 0 12px 0;
+    overflow: hidden;
+    text-align: center;
+}

@@ -40,7 +40,7 @@ export default async function Receituarios({ params }) {
     return (
         <>
             <div className="container my-2">
-                <h6 className="display-6">Receituarios</h6>
+                <h6 className="display-6">Receituários</h6>
                 <div className="row">
                     <div className="col-lg-6">
                         <ReceituarioGrid user={userDetail} data={receituarios} />

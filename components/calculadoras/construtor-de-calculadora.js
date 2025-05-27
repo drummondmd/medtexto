@@ -17,8 +17,16 @@ export default function ConstrutorDeCalculadora({ calc }) {
     let parametros = {}
     let entradas = calc.entradas;
     entradas.map((entrada) => {
-        console.log("entradas", entrada)
-        parametros[entrada.nome] = entrada.defaultValue || ""
+        if (entrada.inputType === "select") {
+            let defaultChecked = entrada.entradas.map((input) => {
+                let valueChecked = input.isDefault == "true" ? input.value : null
+                return valueChecked
+            }).filter((elem) => elem != null)
+            let value = defaultChecked[0];
+            parametros[entrada.nome] = value || ""
+        } else {
+            parametros[entrada.nome] = entrada.defaultValue || ""
+        }
     })
 
     ///states
@@ -27,15 +35,20 @@ export default function ConstrutorDeCalculadora({ calc }) {
     const [resultado, setResultado] = useState([])
     ///abrir aba de outras informações
     const [anotherInfo, setAnother] = useState(false);
-    const [isLoading,setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
 
-    function modifyPar(){
+    ///depois fazer atualização dos valores vindos de outra formula. Funciona no slug da propria calculadora, mas não nas demais.
+
+
+    function modifyPar() {
         parametros = {}
         entradas = displayCalc.entradas;
+
         entradas.map((entrada) => {
             parametros[entrada.nome] = formData[entrada.nome] || ""
         })
+
         setFormData(parametros)
 
     }
@@ -58,7 +71,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
                         <div className="col-lg-6" >
                             <div>
-                                <label className="form-label">{entrada.nome}</label>
+                                <label className="form-label">{entrada.displayNome || entrada.nome}</label>
                             </div>
                             <span className="form-text">{entrada.obs}</span>
                         </div>
@@ -78,7 +91,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
                                     <Fragment key={input.nome}>
                                         <div className="col m-2">
-                                            <input className="btn-check" name={entrada.nome} id={entrada.nome + input.nome} type={input.tipo} value={input.value ?? input.nome} onChange={handleChange} />
+                                            <input className="btn-check" name={entrada.nome} id={entrada.nome + input.nome} type={input.tipo} value={input.value ?? input.nome} defaultChecked={input.isDefault == "true" && true} onChange={handleChange} />
                                             <label className="btn btn-outline-secondary" htmlFor={entrada.nome + input.nome} >{input.displayNome || input.nome}</label>
 
 
@@ -158,7 +171,6 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
     function copyText() {
         let string = "";
-        console.log(resultado.length)
         if (resultado.length > 1) {
             for (let i = 0; i < resultado.length; i++) {
                 if (i === resultado.length - 1) {
@@ -177,6 +189,8 @@ export default function ConstrutorDeCalculadora({ calc }) {
         navigator.clipboard.writeText(string)
 
     }
+
+    console.log(formData)
 
     return (
         <>
@@ -221,7 +235,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
                 <div className={`col-lg-4`}>
                     <div className={`${classes.resultadoContainer} pb-5 pt-3 px-3`}>
                         <h4>Resultado:</h4>
-                        {isLoading&&<p>Calculando...</p>}
+                        {isLoading && <p>Calculando...</p>}
                         {resultado.length > 0 ?
                             <div>
                                 <div>
@@ -229,7 +243,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
                                 </div>
                                 <div className="row">
                                     <div role="button" className="btn col-md-6 " onClick={copyText} >Copiar</div>
-                                    <div role="button" className=" btn col-md-6 " onClick={() => { setResultado([]),modifyPar() }}>
+                                    <div role="button" className=" btn col-md-6 " onClick={() => { setResultado([]), modifyPar() }}>
                                         Apagar</div>
 
 
@@ -258,7 +272,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
                                                         <div className="card-body">
                                                             <div className="card-title">{referencia.titulo}</div>
-                                                            <div className="card-text">{referencia.descricao}</div>
+                                                            {/* <div className="card-text">{referencia.descricao}</div> */}
 
                                                         </div>
                                                     </Link>

@@ -88,8 +88,8 @@ export function textToRec(uso, text, prevArray) {
 
     if (text.length < 5) return { error: "Digite o medicamento corretamente" };/// retornar se string muito curta;
 
-    ///split, fazer regex dps, e já excluindo espaços vazios
-    let arrayOfString = text.split(/(;|,|\|)/gi)
+//// split com o regEx, ;,| desde que virgula não esteja entre numeros usando lookbehhind e lookahead na virgula
+   let arrayOfString = text.split(/(;|\||(?<!\d),(?!\d))/gi)
 
     arrayOfString = arrayOfString.filter((string) => string.length > 1);
     /// dividindo elementos do texto por espaço e excluindo espaços vazios

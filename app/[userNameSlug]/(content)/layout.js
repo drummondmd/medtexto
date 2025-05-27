@@ -5,9 +5,6 @@ import MainLayout from "@/components/layout/layout";
 import { getServerSession } from "next-auth";
 import { options } from "@/lib/auth/options";
 
-
-
-
 export async function generateMetadata({ params }) {
 
     const { userNameSlug } = await params;
@@ -34,7 +31,6 @@ export default async function UserLayout({ children, params }) {
         notFound()
     }
 
-
     const isPasswordNeeded = userDetail.senha_desejada;
     const session = await getServerSession(options);
 
@@ -51,6 +47,7 @@ export default async function UserLayout({ children, params }) {
             redirect(`/${userNameSlug}/auth/signin`);
         }
     }
+
 
 
     //login status

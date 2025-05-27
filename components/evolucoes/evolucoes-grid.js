@@ -11,7 +11,7 @@ export default function EvolucoesGrid({ user, data }) {
 
     let notas = [];
     // data = [{ _id: 1, titulo: "Masculina", conteudo: "Teste" }, { _id: 2, titulo: "Feminina", conteudo: "Teste2" }]
-    let first = { conteudo: "Nenhum conteudo até o momento" }
+    let first = { conteudo: "Nenhum conteúdo até o momento" }
     let isContent = false;
 
     if (data.length > 0) {

@@ -60,11 +60,11 @@ export default function CreateUserForm({ userName }) {
                     <>
                         <div className="col-md-12">
                             <label className="form-label">Senha</label>
-                            <input type="password" className="form-control" name="senha" required />
+                            <input placeholder="Mínimo de 6 caracteres" type="password" className="form-control" name="senha" required />
                         </div>
                         <div className="col-md-12">
                             <label className="form-label">Confirmar Senha</label>
-                            <input type="password" className="form-control" name="senhaConfirma" required   />
+                            <input placeholder="Repita senha digitada acima" type="password" className="form-control" name="senhaConfirma" required   />
                         </div>
                     </>
                 }

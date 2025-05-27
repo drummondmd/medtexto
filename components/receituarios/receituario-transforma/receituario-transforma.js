@@ -52,9 +52,9 @@ export default function ReceituarioTransforma({ user, data }) {
     return (
         <>
             <div className="container">
-                <h6 className="my-2">Transformação de receituario</h6>
+                <h6 className="my-2">Transformação de receituário</h6>
                 <div className="my-2">
-                    <textarea className="form-control" placeholder="ex:Losartana 50mg BID" value={text} onChange={(e) => setText(e.target.value)}></textarea>
+                    <textarea className="form-control" placeholder="ex:Losartana 50mg MID(MUC) ou Amoxicilina 500mg MID 7d(MUE) " value={text} onChange={(e) => setText(e.target.value)}></textarea>
                 </div>
                 {error ?? <div>{error}</div>}
                 <div className="my-2">
@@ -71,7 +71,8 @@ export default function ReceituarioTransforma({ user, data }) {
                     <span className="border-end pe-2 me-2">Receita para texto</span>
                     <div className="d-inline">Seletores</div>
                 </div> */}
-                <div className="my-2" ><textarea placeholder={`ex: 1)Losartana 50mg -------------------- 30cps.`} value={rec} onChange={(e) => setRec(e.target.value)} style={{ height: "260px" }} className="form-control"></textarea> </div>
+                <div className="my-2" ><textarea placeholder={`ex:1)Losartana 50mg ----------------- 30 comprimidos/mês.\nTomar 1 comprimido ao dia.
+`} value={rec} onChange={(e) => setRec(e.target.value)} style={{ height: "260px" }} className="form-control"></textarea> </div>
 
 
 

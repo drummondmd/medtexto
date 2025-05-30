@@ -3,6 +3,8 @@ import Image from "next/image"
 import classes from "./main-header.module.css"
 
 export default function MainHeader({ nome, openModal, session }) {
+
+
     return (
         <>
             <header className={classes.header}>
@@ -16,7 +18,7 @@ export default function MainHeader({ nome, openModal, session }) {
 
                         <div className="d-flex justify-content-center">
                             <Link className="navbar-brand" href="/">
-                                <Image src="/logo.jpg" alt="" width="30" height="24"
+                                <Image src="/ChatGPT-logo.png" alt="" height="24" width={"24"}
                                     className="d-inline-block align-text-top">
                                 </Image>
                                 MedTexto

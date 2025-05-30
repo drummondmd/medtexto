@@ -19,6 +19,7 @@ export default function MainFooter(){
     <span className="mb-3 mb-md-0 text-body-secondary">Todos os direitos reservados. Copyright© {year}  </span>
 </div>
 <div className="col-md-3 d-flex align-items-center justify-content-center">
+     <span className="mb-3 mb-md-0 text-body-secondary">Versão Beta: 0.0.01</span>
     {/* <a href="/" className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
 
         <span className="mb-3 mb-md-0 text-body-secondary">Elaborado por:(SVG) Angelin Digital.</span>

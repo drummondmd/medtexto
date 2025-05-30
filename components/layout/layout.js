@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import MainFooter from "./main-footer/main-footer";
 
 export default function MainLayout({ children, nome, userNameSlug,session }) {
+    console.log(session)
     const [modalMenu, setModalMenu] = useState(false)
 
 

@@ -1,18 +1,28 @@
-import { getUser } from "@/lib/databases/handler-pgdb"
+import { getUserMongo } from "@/lib/databases/handler-mongodb";
+import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb"
 
 export default async function UserNamePage({ params }) {
 
+    ///geral
+    const { userNameSlug } = await params;
 
-    const { userNameSlug } = await params
-    const userDetail = await getUser(userNameSlug);
+    const user = await getUser(userNameSlug);
+    if (!user) {
+        notFound()
+    }
 
+    const userProfile = await getUserProfile(user.id)
+    const userMongo = await getUserMongo(user.id);
+    if (!userProfile || !userMongo) {
+        notFound()
+    }
 
     return (
         <>
             <div className='col-lg-10'>
                 <div className="container my-5">
                     <div>
-                        <h3>Seja bem vindo(a) de volta,  {userDetail ? `${userDetail.nome} ${userDetail.sobrenome}` : ""}</h3>
+                        <h3>Seja bem vindo(a) de volta,  {userProfile ? `${userProfile.nome} ${userProfile.sobrenome}` : ""}</h3>
                         {/* Posteriormente colocando detalhes do usuario */}
                         {/* {userDetail.tipo_usuario && <span>{`${userDetail.tipo_usuario} - `} </span>}
                         {userDetail.especialidade ?? <span>{userDetail.especialidade}</span>} */}

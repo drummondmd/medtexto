@@ -1,21 +1,25 @@
 import BlocoDeNotas from "@/components/bloco-de-notas/bloco-de-notas"
 import { getUserMongo } from "@/lib/databases/handler-mongodb";
-import { getUser } from "@/lib/databases/handler-pgdb"
-import { mongo } from "mongoose";
+import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb"
 
 export default async function BlocoDeNotaPage({ params }) {
-    const { userNameSlug } = await params
-    const userDetail = await getUser(userNameSlug);
-    const mongoDb = await getUserMongo(userDetail);
-    let blocosDeNotas = mongoDb.blocosDeNotas;
+    ///geral
+    const { userNameSlug } = await params;
 
-    ///colocando valor se mongoDB vazio
-    if (mongoDb == null) {
-        blocosDeNotas = ""
+    const user = await getUser(userNameSlug);
+    if (!user) {
+        notFound()
     }
 
+    const userProfile = await getUserProfile(user.id)
+    const userMongo = await getUserMongo(user.id);
+    if (!userProfile||!userMongo) {
+        notFound()
+    }
 
+    ////especifico.
+    const blocosDeNotas = userMongo.blocosDeNotas
 
-    return <BlocoDeNotas user={userDetail} inputDb={{ conteudo: blocosDeNotas }} />
+    return <BlocoDeNotas user={userProfile} inputDb={{ conteudo: blocosDeNotas }} />
 
 }

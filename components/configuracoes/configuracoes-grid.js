@@ -7,9 +7,9 @@ import FormCompleto from "../pagina-inicial/form-completo";
 import FormButton from "./form-button";
 import { changeProtectStatus } from "@/actions/onConfigPage/select-actions";
 
-export default function ConfiguracoesGrid({ userNameSlug, userDetail }) {
+export default function ConfiguracoesGrid({ userNameSlug, userDetail,isSenhaDefinida }) {
     const isProtect = userDetail.senha_desejada
-    const isEmailVerificado = userDetail.email_verificado
+
     const [activeTab, setActiveTab] = useState("preferences")
     const [deletarInput, setDeletar] = useState(true)
     const [toast, setToast] = useState({ isActive: false, mensagem: "", type: "success" })
@@ -27,7 +27,7 @@ export default function ConfiguracoesGrid({ userNameSlug, userDetail }) {
     async function onChangeSelect(e) {
         const value = e.target.value
         const user = userDetail
-        const response = await changeProtectStatus(user, value)
+        const response = await changeProtectStatus(user,userNameSlug, value,isSenhaDefinida)
         if (response === true) {
             showToast("Preferencia atualizada com sucesso","success")
         }else{
@@ -134,7 +134,7 @@ export default function ConfiguracoesGrid({ userNameSlug, userDetail }) {
                                 <p className="card-text text-muted mb-4">
                                     Gerencie seus dados pessoais e configurações de conta.
                                 </p>
-                                <FormCompleto firstUser={false} userDetail={userDetail} />
+                                <FormCompleto firstUser={false} userDetail={userDetail} username={userNameSlug} />
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@ export default function ConfiguracoesGrid({ userNameSlug, userDetail }) {
                                                 clickFunction={"resetePass"}
                                                 anotherClass={"btn-secondary"}
                                                 escrito={"Trocar senha"}
-                                                user={userDetail}
+                                                username={userNameSlug}
                                             />
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@ export default function ConfiguracoesGrid({ userNameSlug, userDetail }) {
                                             clickFunction={"deleteUser"}
                                             anotherClass={"btn-danger"}
                                             escrito={"Apagar Conta"}
-                                            user={userDetail}
+                                            user_id={userDetail.user_id}
                                         />
                                     </div>
                                 </div>

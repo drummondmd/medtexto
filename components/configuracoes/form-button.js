@@ -5,7 +5,7 @@ import { redirect, useRouter } from "next/navigation";
 
 
 
-export default function FormButton({ clickFunction, anotherClass, escrito,user,disabled }) {
+export default function FormButton({ clickFunction, anotherClass, escrito,user_id,username,disabled }) {
     const route = useRouter()
 
 
@@ -18,13 +18,13 @@ export default function FormButton({ clickFunction, anotherClass, escrito,user,d
 
 
 
-     function handleClick(clickFunction,user) {
+     function handleClick(clickFunction,user_id) {
         if(clickFunction === "deleteUser"){
-            delteUserHandle(user)
+            delteUserHandle(user_id)
         }
         ///fazer reset de pass depois, trocar senha somente de usuarios com email confirmados
         if(clickFunction === "resetePass"){
-            route.push(`/${user.username}/auth/reset-password`)
+            route.push(`/${username}/auth/reset-password`)
 
         }
 
@@ -35,7 +35,7 @@ export default function FormButton({ clickFunction, anotherClass, escrito,user,d
 
     return (
         <>
-            <button disabled={disabled} onClick={()=>handleClick(clickFunction,user)} className={`btn m-1 ${anotherClass}`}>{escrito}</button>
+            <button disabled={disabled} onClick={()=>handleClick(clickFunction,user_id)} className={`btn m-1 ${anotherClass}`}>{escrito}</button>
         </>
 
 

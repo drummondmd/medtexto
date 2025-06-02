@@ -5,7 +5,7 @@ import { upadteHomepage } from "@/lib/databases/handler-pgdb";
     export default function FormSelect({user}){
 
 
-    const recursos = ["/home","/passometros","/bloco-de-notas","/calculadoras","/receituarios","/resumos",];
+    const recursos = ["/home","/bloco-de-notas","/calculadoras","/receituarios","/resumos"];
     const atual = user.homepage?user.homepage:"/home"
 
     function changeSelect(e,user){

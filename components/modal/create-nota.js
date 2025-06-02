@@ -59,8 +59,7 @@ export default function CreateNota({ isCaderno, handlerForm, boolean, close, use
 
                         {inputNewCaderno && newCadernoInput}
 
-                        <input name="userId" value={user.id} readOnly hidden></input>
-                        <input name="userName" value={user.username} readOnly hidden></input>
+                        <input name="userId" value={user.user_id} readOnly hidden></input>
                         <div className="form-group">
                             <label className="form-label">Título</label>
                             <input name="titulo" defaultValue={state ? state.payload.get("titulo") : null} type="text" maxLength={30} className="form-control" required></input>

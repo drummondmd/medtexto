@@ -8,23 +8,15 @@ import ToolbarRecEv from "../receituarios/toolbar"
 
 export default function EvolucoesGrid({ user, data }) {
 
-
-    let notas = [];
-    // data = [{ _id: 1, titulo: "Masculina", conteudo: "Teste" }, { _id: 2, titulo: "Feminina", conteudo: "Teste2" }]
+    data = JSON.parse(data)
     let first = { conteudo: "Nenhum conteúdo até o momento" }
     let isContent = false;
 
+    let notas =[];
+
     if (data.length > 0) {
         isContent = true;
-        notas = data.map((elem) => {
-            return (
-                {
-                    titulo: elem.titulo,
-                    conteudo: elem.conteudo,
-                    _id: JSON.parse(elem["_id"])
-                }
-            )
-        })
+        notas = data
         first = data[0]
     }
 

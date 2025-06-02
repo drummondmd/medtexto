@@ -10,6 +10,7 @@ export async function GET(request) {
 
     ///checar se já existente, se existir responder que já existe e não autorizar cadastro;
     const alreadyHaveUser = await getUser(query)
+    console.log(alreadyHaveUser)
 
     if (!alreadyHaveUser) {
         return Response.json({response:true})

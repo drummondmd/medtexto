@@ -17,9 +17,9 @@ export default async function contactForm(formData){
     const mensagem =  formData.get("mensagem");
     const emailResponse =  formData.get("emailResponse") == "sim"?true:false;
 
-    console.log(formData)
 
     if(isInvalid(user)||isInvalid(email)||isInvalid(email)||isInvalid(motivo)||isInvalid(mensagem)){
+        console.log("informação errada do usuário")
         return {erro:"Insira os dados corretamentes ou tente novamente mais tarde"}
     }
 

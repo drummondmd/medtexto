@@ -1,21 +1,29 @@
 
 import SigninForm from "@/components/pagina-inicial/signin-form";
-import { getUser } from "@/lib/databases/handler-pgdb";
+import { getUserMongo } from "@/lib/databases/handler-mongodb";
+import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb";
 import { getServerSession } from "next-auth"
 import { notFound, redirect } from "next/navigation";
 
 
 export default async function SignIn({ params }) {
-    // const providers = await getProviders()
+    ///geral
+    const { userNameSlug } = await params;
 
-    const { userNameSlug } = await params
-    const session = await getServerSession()
-    const userDetail = await getUser(userNameSlug);
-
-    if (!userDetail) {
+    const user = await getUser(userNameSlug);
+    if (!user) {
         notFound()
     }
-    const isPasswordNeeded = userDetail.senha_desejada;
+
+    const userProfile = await getUserProfile(user.id)
+    const userMongo = await getUserMongo(user.id);
+    if (!userProfile||!userMongo) {
+        notFound()
+    }
+
+    ///especifico
+    const session = await getServerSession()
+    const isPasswordNeeded = userProfile.senha_desejada;
 
 
 

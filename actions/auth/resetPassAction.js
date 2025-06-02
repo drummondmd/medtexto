@@ -7,6 +7,7 @@ import { transporter } from "@/lib/nodemailer/config.js"
 import nodemailer from 'nodemailer';
 import { hashPassword } from "@/lib/hash/hash";
 import { redirect } from "next/navigation";
+import getTokenFromDb from "@/lib/databases/handle-token-pg";
 
 export async function resetPassAction(prev, formData) {
 
@@ -73,9 +74,24 @@ export async function resetPassAction(prev, formData) {
     ///resetar senha da database e colocar token
     try {
         let now = new Date();
-        now.setHours(now.getHours() + 6)
+        let expiracao_token = now
+        expiracao_token.setHours(now.getHours() + 6);
 
-        pool.query("UPDATE usuarios SET senha_hash = $1, token_recuperacao =$2,expiracao_token = $3  WHERE id = $4", [null, token, now, userId])
+
+        //           INSERT INTO USUARIOS (username,senha_desejada,nome,sobrenome,email,senha_hash,data_criacao)
+        //   VALUES($1,$2,$3,$4,$5,$6,$7)
+        //   RETURNING id`
+
+        const result = await pool.query(`
+            INSERT INTO user_tokens (user_id,tipo_token,token,expiracao_token,data_criacao)
+            VALUES ($1,$2,$3,$4,$5)
+            `, [userId, "reset_senha", token, expiracao_token, now])
+
+        if (result.rowCount > 0) {
+            ///se criar token corretamente apagar senha atual
+            pool.query("UPDATE users SET senha_hash =$1", [null])
+
+        }
 
     } catch (error) {
         console.log(error, "erro ao atulizar database")
@@ -100,15 +116,6 @@ export async function newPasswordAction(prev, formData) {
     const password = formData.get("password")
     const passwordConfirmation = formData.get("passwordConfirmation")
 
-    ///checar se usuario existe e retorar se não existir
-    const isRealUser = (await getUser(username))
-    if (!isRealUser) {
-        return {
-            erro: "Usuario não encontrado"
-        }
-    }
-    const { id, token_recuperacao, expiracao_token } = isRealUser
-
     ///checar se senha confirma e atende requisito
     if (password != passwordConfirmation || password.length < 6) {
         return {
@@ -116,9 +123,20 @@ export async function newPasswordAction(prev, formData) {
         }
     }
 
+    const user = await getUser(username)
+    const dbToken = await getTokenFromDb(token)
+
+    ///checar se usuario existe e retorar se não existir
+    if (!user) {
+        return {
+            erro: "Usuario não encontrado"
+        }
+    }
+
     ///checar se token é válido
     let now = new Date()
-    if (token != token_recuperacao || now > expiracao_token) {
+
+    if (!dbToken || dbToken.user_id != user.id || now > dbToken.expiracao_token) {
         return {
             erro: "Token invalido ou token expirado, solicite nova senha",
             link: `/${username}/auth/reset-password`
@@ -130,7 +148,11 @@ export async function newPasswordAction(prev, formData) {
     const hash = await hashPassword(password)
 
     try {
-        pool.query("UPDATE usuarios SET senha_hash = $1, token_recuperacao =$2,expiracao_token = $3  WHERE id = $4",[hash, null, null, id])
+        const result = await pool.query("UPDATE users SET senha_hash = $1 WHERE id = $2", [hash, user.id]);
+        if(result.rowCount>0){
+            ///apagar token se senha inserida com sucesso
+            pool.query("DELETE FROM user_tokens WHERE token =$1",[token])
+        }
     } catch (error) {
         console.error(error)
         return {

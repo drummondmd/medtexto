@@ -1,13 +1,22 @@
 import contactForm from "@/actions/contactPage/form-action";
-import { getUser } from "@/lib/databases/handler-pgdb";
+import { getUserMongo } from "@/lib/databases/handler-mongodb";
+import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb";
 
 export default async function Contato({params}) {
+    ///geral
+    const { userNameSlug } = await params;
 
+    const user = await getUser(userNameSlug);
+    if (!user) {
+        notFound()
+    }
 
-    const { userNameSlug } = await params
-    const userDetail =await getUser(userNameSlug);
+    const userProfile = await getUserProfile(user.id)
+    const userMongo = await getUserMongo(user.id);
+    if (!userProfile||!userMongo) {
+        notFound()
+    }
 
-    const formAction = ""
 
 
     return (
@@ -15,7 +24,7 @@ export default async function Contato({params}) {
             <form className="row g-3" action={contactForm}>
                 {/* hidden */}
                 <input type="text" name="user" value={userNameSlug} readOnly hidden/>
-                <input type="text" name="email" value={userDetail.email} readOnly hidden/>
+                <input type="text" name="email" value={user.email} readOnly hidden/>
 
 
                 {/* Motivo do Contato */}

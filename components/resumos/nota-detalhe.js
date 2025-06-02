@@ -5,7 +5,7 @@ import classes from "./nota-detalhe.module.css"
 import { resumoHandle } from "@/lib/handler-action"
 
 
-export default function NotaDetalhe({ data,cadernoId,user}) {
+export default function NotaDetalhe({ data,cadernoId,user,userNameSlug}) {
 
     data = JSON.parse(data)
 
@@ -16,8 +16,8 @@ export default function NotaDetalhe({ data,cadernoId,user}) {
         <>
             <div className="d-flex justify-content-end mb-2">
                 <div role="buttom" className="btn btn-secondary mx-1" onClick={() => navigator.clipboard.writeText(nota.conteudo)}>Copiar</div>
-                <div onClick={() => resumoHandle("note","delete", "resumos", user,cadernoId, nota)} role="buttom" className=" mx-1 btn btn-danger">Deletar</div>
-                <div onClick={() => resumoHandle("note","update", "resumos", user,cadernoId, nota)} className="mx-1 btn btn-primary" role="buttom">Salvar</div>
+                <div onClick={() => resumoHandle("note","delete", "resumos", user,cadernoId, nota,userNameSlug)} role="buttom" className=" mx-1 btn btn-danger">Deletar</div>
+                <div onClick={() => resumoHandle("note","update", "resumos", user,cadernoId, nota,userNameSlug)} className="mx-1 btn btn-primary" role="buttom">Salvar</div>
             </div>
             {/* depois fazer com editor de texto slate */}
             {/* https://docs.slatejs.org/ */}

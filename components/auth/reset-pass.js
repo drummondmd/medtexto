@@ -3,7 +3,7 @@
 import { resetPassAction } from "@/actions/auth/resetPassAction";
 import { useActionState } from "react"
 
-export function ResetPassForm({ userDetail }) {
+export function ResetPassForm({username,userProfile }) {
     const [state, formAction, isPending] = useActionState(resetPassAction, {});
 
     return (
@@ -18,7 +18,7 @@ export function ResetPassForm({ userDetail }) {
                                 <div className="d-flex align-items-center">
                                     <i className="bi bi-info-circle-fill me-2"></i>
                                     <div>
-                                        <p className="mb-1"><strong>Usuário:</strong> {userDetail.username}</p>
+                                        <p className="mb-1"><strong>Usuário:</strong> {username}</p>
                                         <p className="mb-0">Um link para redefinir sua senha será enviado ao e-mail informado abaixo.</p>
                                     </div>
                                 </div>
@@ -39,8 +39,8 @@ export function ResetPassForm({ userDetail }) {
                                     </div>
                                 )}
 
-                                <input name="username" value={userDetail.username} readOnly hidden />
-                                <input name="userId" value={userDetail.id} readOnly hidden />
+                                <input name="username" value={username} readOnly hidden />
+                                <input name="userId" value={userProfile.user_id} readOnly hidden />
 
                                 <div className="mb-4">
                                     <label htmlFor="email" className="form-label fw-semibold">E-mail para recuperação</label>

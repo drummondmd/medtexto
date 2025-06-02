@@ -10,6 +10,9 @@ import ToolbarRecEv from "./toolbar"
 // className={` ${displayCalc.titulo === calc.titulo ? "btn-secondary" : "btn-outline-secondary"}
 
 export default function ReceituarioGrid({ user, data }) {
+    data = JSON.parse(data)
+
+
     let cadernos = []
     // data = [{ _id: 1, titulo: "Teste de tamanho de Titulo, 20", conteudo: "Teste" }, { _id: 2, titulo: "ITU", conteudo: "Teste2" }]
     let first = { conteudo: "Nenhum conteúdo até o momento" }
@@ -18,15 +21,7 @@ export default function ReceituarioGrid({ user, data }) {
 
     if (data.length > 0) {
         isContent = true;
-        cadernos = data.map((elem) => {
-            return (
-                {
-                    titulo: elem.titulo,
-                    conteudo: elem.conteudo,
-                    _id: JSON.parse(elem["_id"])
-                }
-            )
-        })
+        cadernos = data
         first = data[0]
     }
 

@@ -1,13 +1,26 @@
-import { getUser } from "@/lib/databases/handler-pgdb";
+import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb";
 import MenuResumo from "@/components/resumos/menu-resumo";
 import { getUserMongo } from "@/lib/databases/handler-mongodb";
-import { mongo } from "mongoose";
+import { notFound } from "next/navigation";
 
 export default async function ResumosLayout({ children, params }) {
+    ///geral
     const { userNameSlug } = await params;
-    const  userDetail = await getUser(userNameSlug);
-    const mongoDb = await getUserMongo(userDetail);
-    const resumos = JSON.stringify(mongoDb.resumos)
+
+    const user = await getUser(userNameSlug);
+    if (!user) {
+        notFound()
+    }
+
+    const userProfile = await getUserProfile(user.id)
+    const userMongo = await getUserMongo(user.id);
+    if (!userProfile || !userMongo) {
+        notFound()
+    }
+
+
+    ///especifico
+    const resumos = JSON.stringify(userMongo.resumos)
 
 
 
@@ -16,7 +29,7 @@ export default async function ResumosLayout({ children, params }) {
             <h6 className="display-6">Resumos</h6>
             <div className="row">
                 <div className="col-md-3">
-                <MenuResumo cadernosJson={resumos} userNameSlug={userNameSlug} userDetail={userDetail} />
+                <MenuResumo cadernosJson={resumos} userNameSlug={userNameSlug} userDetail={userProfile} />
                 </div>
                 <div className="col-md-9">
                 {children}

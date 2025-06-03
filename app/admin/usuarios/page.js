@@ -1,7 +1,7 @@
 import { pool } from "@/lib/databases/db-config"
 
 export default async function AdminUsuarios(){
-    const allUsers = await pool.query("SELECT * from usuarios")
+    const allUsers = await pool.query("SELECT * from users")
     const rows = allUsers.rows
 
     return(

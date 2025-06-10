@@ -12,7 +12,6 @@ export async function POST(request, { params })  {
       if (!calcFunction) {
         return NextResponse.json({ error: "Função de cálculo não implementada" }, { status: 500 });
       }
-      console.log(body)
 
       const resultado = calcFunction(body);
       return NextResponse.json(resultado);

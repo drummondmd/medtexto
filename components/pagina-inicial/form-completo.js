@@ -10,15 +10,13 @@ export default function FormCompleto({ firstUser, userDetail, username }) {
   const action = firstUser ? createUserForm : updateUserForm
 
   const [state, formAction, isPending] = useActionState(action, null)
-  const [selectRadio, setSelectRadio] = useState(false)
-
+  // const [selectRadio, setSelectRadio] = useState(false)
 
   ///transformando data para string para funcionar como default
   let stringDate;
   if (userDetail.data_nascimento) {
-    console.log("existe data")
     stringDate = userDetail.data_nascimento
-    stringDate = stringDate.toISOString().substring(0, 10);
+    stringDate = stringDate.substring(0, 10);
   }
 
   return (

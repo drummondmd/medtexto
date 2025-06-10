@@ -1,6 +1,6 @@
 'use server'
 
-import { Calculadora } from "@/lib/databases/db-config"
+import { Calculadora, pool } from "@/lib/databases/db-config"
 
 export async function updateCalculadora(calculadorasRelacionadas,entradas,referencias,FormData){
 
@@ -42,5 +42,19 @@ export async function updateCalculadora(calculadorasRelacionadas,entradas,refere
   }
 
 
+
+}
+
+export async function getContatos() {
+
+  try {
+    const result =  await pool.query('SELECT * from contatos')
+    return result.rows
+
+  } catch (error) {
+    console.error("Erro ao buscar dados na DB")
+    return null
+
+  }
 
 }

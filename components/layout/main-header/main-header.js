@@ -18,7 +18,7 @@ export default function MainHeader({ nome, openModal, session }) {
 
                         <div className="d-flex justify-content-center">
                             <Link className="navbar-brand" href="/">
-                                <Image src="/ChatGPT-logo.png" alt="" height="24" width={"24"}
+                                <Image src="/logo.png" alt="" height="24" width="24"
                                     className="d-inline-block align-text-top">
                                 </Image>
                                 MedTexto

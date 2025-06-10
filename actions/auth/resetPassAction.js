@@ -31,7 +31,9 @@ export async function resetPassAction(prev, formData) {
 
     ///mandar token por email
 
-    const resetLink = `http://localhost:3000/${username}/auth/reset-password/new-password?token=${token}`
+    const url =  "https://medtexto.vercel.app"
+
+    const resetLink = `${url}/${username}/auth/reset-password/new-password?token=${token}`
 
     try {
         const info = await transporter.sendMail({

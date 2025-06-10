@@ -12,14 +12,15 @@ export default async function BlocoDeNotaPage({ params }) {
     }
 
     const userProfile = await getUserProfile(user.id)
+
     const userMongo = await getUserMongo(user.id);
-    if (!userProfile||!userMongo) {
+    if (!userProfile || !userMongo) {
         notFound()
     }
 
+
     ////especifico.
     const blocosDeNotas = userMongo.blocosDeNotas
-
     return <BlocoDeNotas user={userProfile} inputDb={{ conteudo: blocosDeNotas }} />
 
 }

@@ -21,6 +21,9 @@ export default function AdminLayout({ children }) {
           <li className="nav-item">
             <a className="nav-link text-white" href="/admin/usuarios">Usuários</a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link text-white" href="/admin/contatos">Contatos</a>
+          </li>
         </ul>
       </div>
 

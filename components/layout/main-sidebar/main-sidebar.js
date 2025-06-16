@@ -2,8 +2,6 @@ import classes from "./main-sidebar.module.css"
 import NavLink from "./nav-link"
 
 export default function SideMenu({ userName, modal, closeModal }) {
-    console.log(modal)
-
     const listItem =
         <ul className="nav flex-column nav nav-pills nav-fill">
             <NavLink href={`/${userName}/home`} name={"Início"} />

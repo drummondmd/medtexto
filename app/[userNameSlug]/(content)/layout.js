@@ -16,11 +16,13 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function UserLayout({ children, params }) {
+    const start = new Date()
     const { userNameSlug } = await params
     const user = await getUser(userNameSlug);
     if (!user) {
         notFound()
     }
+
 
     const userProfile = await getUserProfile(user.id)
     if (!userProfile) {
@@ -40,6 +42,8 @@ export default async function UserLayout({ children, params }) {
 
     //login stats
     statsLogin(user);
+
+    console.log(" layout timing:", Date.now() - start, "ms");
 
     return (
         <MainLayout nome={`${userProfile.nome} ${userProfile.sobrenome}`} userNameSlug={userNameSlug} session={session}>

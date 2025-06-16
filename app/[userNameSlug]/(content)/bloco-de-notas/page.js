@@ -3,6 +3,8 @@ import { getUserMongo } from "@/lib/databases/handler-mongodb";
 import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb"
 
 export default async function BlocoDeNotaPage({ params }) {
+    const start = new Date()
+
     ///geral
     const { userNameSlug } = await params;
 
@@ -11,12 +13,20 @@ export default async function BlocoDeNotaPage({ params }) {
         notFound()
     }
 
-    const userProfile = await getUserProfile(user.id)
+    // const [userProfile, userMongo] = await Promise.all([
+    //     getUserProfile(user.id),
+    //     getUserMongo(user.id),
+    // ]);
 
+    const userProfile = await getUserProfile(user.id)
     const userMongo = await getUserMongo(user.id);
+
     if (!userProfile || !userMongo) {
         notFound()
     }
+
+    console.log(" bloco timing:", Date.now() - start, "ms");
+
 
 
     ////especifico.

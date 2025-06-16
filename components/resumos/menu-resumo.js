@@ -10,7 +10,6 @@ export default function MenuResumo({ cadernosJson, userNameSlug, userDetail }) {
     const userNameHref = `/${userNameSlug}/resumos/`
     let isContent = false
     let cadernos = JSON.parse(cadernosJson)
-    console.log(cadernos)
     if (cadernos.length > 0) {
         isContent = true
     }

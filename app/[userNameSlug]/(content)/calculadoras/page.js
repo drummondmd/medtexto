@@ -7,8 +7,10 @@ import Loading from "../../loading";
 export default async function Calculadoras() {
 
     async function CalculadoraServerPage() {
-
+        // const start = new Date()
         const calculadoras = await getCalculadoras();
+
+        // console.log("calculadoras" , Date.now() - start , "ms")
 
         return <CalculadorasGrid data={JSON.stringify(calculadoras)} />
 

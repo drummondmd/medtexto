@@ -2,6 +2,7 @@ import ReceituarioTransforma from "@/components/receituarios/receituario-transfo
 import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb";
 import { getUserMongo } from "@/lib/databases/handler-mongodb";
 import ReceituarioGrid from "@/components/receituarios/receituario-grid";
+import { notFound } from "next/navigation";
 
 
 export default async function Receituarios({ params }) {

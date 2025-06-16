@@ -1,6 +1,7 @@
 import BlocoDeNotas from "@/components/bloco-de-notas/bloco-de-notas"
 import { getUserMongo } from "@/lib/databases/handler-mongodb";
 import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb"
+import { notFound } from "next/navigation";
 
 export default async function BlocoDeNotaPage({ params }) {
     const start = new Date()

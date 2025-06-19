@@ -8,26 +8,26 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/material": "^7.0.2",
-    "@vercel/analytics": "^1.5.0",
-    "@vercel/speed-insights": "^1.2.0",
-    "bcrypt": "^5.1.1",
-    "bootstrap": "^5.3.5",
-    "bootstrap-icons": "^1.13.1",
-    "mongoose": "^8.12.1",
-    "next": "^15.3.2",
-    "next-auth": "^4.24.11",
-    "nodemailer": "^6.10.1",
-    "pg": "^8.13.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.5"
-  }
+"dependencies": {
+  "@emotion/react": "^11.14.0",
+  "@emotion/styled": "^11.14.0",
+  "@mui/material": "^7.0.2",
+  "@vercel/analytics": "^1.5.0",
+  "@vercel/speed-insights": "^1.2.0",
+  "bcrypt": "^5.1.1",
+  "bootstrap": "^5.3.5",
+  "bootstrap-icons": "^1.13.1",
+  "mongoose": "^8.12.1",
+  "next": "^15.3.2",
+  "next-auth": "^4.24.11",
+  "nodemailer": "^6.10.1",
+  "pg": "^8.13.3",
+  "react": "^19.1.0",
+  "react-dom": "^19.1.0"
+},
+"devDependencies": {
+  "@eslint/eslintrc": "^3",
+  "eslint": "^9",
+  "eslint-config-next": "15.1.5"
+}
 }

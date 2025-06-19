@@ -12,6 +12,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
 
     calc = JSON.parse(calc)
+    console.log(calc)
     ///parametros
 
     let parametros = {}
@@ -190,8 +191,6 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
     }
 
-    console.log(formData)
-
     return (
         <>
             <div className="row container my-1">
@@ -214,8 +213,9 @@ export default function ConstrutorDeCalculadora({ calc }) {
                                     Calculadoras Relacionadas:
                                 </div>
                                 <div>{calc["calculadorasRelacionadas"].map((segCalc) => {
+                                    console.log(segCalc)
                                     return (
-                                        <div key={segCalc._id} className={` ${displayCalc.titulo === segCalc.titulo ? "btn-secondary" : "btn-outline-secondary"} btn mx-2`} role="buttom" onClick={() => setDisplayCalc(segCalc)}>
+                                        <div key={segCalc.slug} className={` ${displayCalc.titulo === segCalc.titulo ? "btn-secondary" : "btn-outline-secondary"} btn mx-2`} role="buttom" onClick={() => setDisplayCalc(segCalc)}>
                                             {segCalc.titulo}
                                         </div>
                                     )

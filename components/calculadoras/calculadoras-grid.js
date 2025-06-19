@@ -76,7 +76,7 @@ export default function CalculadorasGrid({ data }) {
                             {(exibicao.length === 0) && <li>Nenhuma calculadora encontrada</li>}
                             {exibicao.map((elem) => {
                                 return (
-                                    <li key={elem["_id"]} className="col-md-6"><Link href={pathname + "/" + elem.slug} >
+                                    <li key={elem.slug} className="col-md-6"><Link href={pathname + "/" + elem.slug} >
                                         <div className="card m-2">
                                             <div className="card-body">
                                                 <h6 className="card-title"> {elem.titulo} </h6>

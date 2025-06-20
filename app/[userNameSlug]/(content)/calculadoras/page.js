@@ -10,6 +10,7 @@ export default async function Calculadoras() {
     async function CalculadoraServerPage() {
         const start = new Date()
 
+
         // const calculadoras = await getCalculadoras();
         // const staticCalc  = calculadoras.map((calc)=>{
         //     return {titulo:calc.titulo,slug:calc.slug,descricao:calc.descricao}

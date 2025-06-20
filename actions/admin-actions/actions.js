@@ -13,7 +13,6 @@ export async function updateCalculadora(calculadorasRelacionadas, entradas, refe
   const slug = FormData.get("slug")
   const functionLogic = FormData.get("functionLogic")
   const evidencia = FormData.get("evidencia")
-  console.log(entradas[4].entradas)
   try {
     await connectToDatabase()
     const result = await Calculadora.updateOne(
@@ -32,7 +31,6 @@ export async function updateCalculadora(calculadorasRelacionadas, entradas, refe
         },
       }
     );
-    console.log(result)
     return result.modifiedCount > 0;
   } catch (error) {
     console.error("Erro ao atualizar calculadora no MongoDB:", error);

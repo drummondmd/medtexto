@@ -20,7 +20,7 @@ export default function CalculadorasAdminPage() {
                         ...rel,
                         _id: rel._id?.toString()
                     })) || []
-                })); console.log(parsed)
+                }));
                 setCalculadoras(parsed) || [];
             } catch (err) {
                 console.error('Erro ao buscar calculadoras:', err);

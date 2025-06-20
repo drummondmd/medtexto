@@ -12,7 +12,6 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
 
     calc = JSON.parse(calc)
-    console.log(calc)
     ///parametros
 
     let parametros = {}

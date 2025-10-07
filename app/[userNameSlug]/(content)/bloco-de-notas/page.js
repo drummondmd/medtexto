@@ -14,11 +14,6 @@ export default async function BlocoDeNotaPage({ params }) {
         notFound()
     }
 
-    // const [userProfile, userMongo] = await Promise.all([
-    //     getUserProfile(user.id),
-    //     getUserMongo(user.id),
-    // ]);
-
     const userProfile = await getUserProfile(user.id)
     const userMongo = await getUserMongo(user.id);
 

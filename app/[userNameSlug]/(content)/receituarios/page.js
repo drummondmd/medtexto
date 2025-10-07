@@ -1,8 +1,8 @@
-import ReceituarioTransforma from "@/components/receituarios/receituario-transforma/receituario-transforma";
 import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb";
 import { getUserMongo } from "@/lib/databases/handler-mongodb";
 import ReceituarioGrid from "@/components/receituarios/receituario-grid";
 import { notFound } from "next/navigation";
+import RecTrasformaGrid from "@/components/receituarios/receituario-transforma/receituario-transforma-grid";
 
 
 export default async function Receituarios({ params }) {
@@ -37,8 +37,7 @@ export default async function Receituarios({ params }) {
                         <ReceituarioGrid user={userProfile} data={receituarios} />
                     </div>
                     <div className="col-lg-6">
-                        <ReceituarioTransforma user={userProfile} data={receituarioTransforma} />
-
+                        <RecTrasformaGrid />
                     </div>
 
 

@@ -3,7 +3,7 @@
 import { textToRec } from "@/actions/receituarioTransforma"
 import { useEffect, useState } from "react"
 
-export default function ReceituarioTransforma({ user, data }) {
+export default function TextoParaReceita() {
 
     ///mandar e pegar da db depois, talvez nem utilizar
 
@@ -19,9 +19,9 @@ export default function ReceituarioTransforma({ user, data }) {
         let string = ""
 
         array.forEach((element, index) => {
-            if(element.compPosologia){
-                string = string + (index + 1) + ")" + element.med + " " + element.dosagem + " " + element.hyphen + " " + element.qtn + ".\n" + element.posologia + element.compPosologia +".\n"
-            }else{
+            if (element.compPosologia) {
+                string = string + (index + 1) + ")" + element.med + " " + element.dosagem + " " + element.hyphen + " " + element.qtn + ".\n" + element.posologia + element.compPosologia + ".\n"
+            } else {
                 string = string + (index + 1) + ")" + element.med + " " + element.dosagem + " " + element.hyphen + " " + element.qtn + "\n" + element.posologia + ".\n"
             }
         })
@@ -63,7 +63,7 @@ export default function ReceituarioTransforma({ user, data }) {
                         <button type="button" className="btn btn-secondary mx-1" onClick={handleTextToRec.bind(null, "MUC")}>Uso continuo</button>
                         <button type="button" className="btn btn-secondary mx-1" onClick={handleTextToRec.bind(null, "MUE")}>Uso eventual</button>
                         <button type="button" className="btn btn-secondary mx-1" onClick={() => { navigator.clipboard.writeText(rec) }}>Copiar</button>
-                        <button type="button" className="btn btn-secondary mx-1" onClick={() => {setArray([]), setRec("") }}>Apagar</button>
+                        <button type="button" className="btn btn-secondary mx-1" onClick={() => { setArray([]), setRec("") }}>Apagar</button>
                     </div>
                 </div>
                 {/* Receituario para texto será feito depois */}

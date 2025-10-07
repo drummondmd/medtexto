@@ -25,7 +25,7 @@ export default function SaveButton({ user, input,path }) {
         if(path === "bloco"){
             const atualizar = await updateBloco(user, input)
         }
-        setTimeout(() => setIcon(after), 200)
+        setIcon(after)
     }
 
 

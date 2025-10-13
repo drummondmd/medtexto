@@ -63,7 +63,7 @@ export default function TextoParaReceita() {
                         <button type="button" className="btn btn-secondary mx-1" onClick={handleTextToRec.bind(null, "MUC")}>Uso continuo</button>
                         <button type="button" className="btn btn-secondary mx-1" onClick={handleTextToRec.bind(null, "MUE")}>Uso eventual</button>
                         <button type="button" className="btn btn-secondary mx-1" onClick={() => { navigator.clipboard.writeText(rec) }}>Copiar</button>
-                        <button type="button" className="btn btn-secondary mx-1" onClick={() => { setArray([]), setRec("") }}>Apagar</button>
+                        <button type="button" className="btn btn-secondary mx-1" onClick={() => { setArray([]);setRec("") }}>Apagar</button>
                     </div>
                 </div>
                 {/* Receituario para texto será feito depois */}

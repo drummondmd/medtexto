@@ -6,7 +6,7 @@ import ReceitaParaTexto from "./receita-para-texto"
 
 export default function RecTrasformaGrid() {
 
-    const [display, setDisplay] = useState<1 | 2>(2)
+    const [display, setDisplay] = useState<1 | 2>(1)
 
     return (
         <div>

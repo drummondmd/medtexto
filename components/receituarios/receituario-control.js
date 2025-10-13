@@ -1,4 +1,3 @@
-import classes from "./receituario-control.module.css"
 
 export default function ReceituarioControl({ cadernos, clickHandler, newEntry,selected }) {
     return (

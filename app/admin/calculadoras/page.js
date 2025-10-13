@@ -21,7 +21,7 @@ export default function CalculadorasAdminPage() {
                         _id: rel._id?.toString()
                     })) || []
                 }));
-                setCalculadoras(parsed) || [];
+                setCalculadoras(parsed || []);
             } catch (err) {
                 console.error('Erro ao buscar calculadoras:', err);
             } finally {

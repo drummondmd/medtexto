@@ -23,7 +23,7 @@ export default function SaveButton({ user, input,path }) {
         ///mudando a depender de onde será salvo
         setIcon(before)
         if(path === "bloco"){
-            const atualizar = await updateBloco(user, input)
+            await updateBloco(user, input)
         }
         setIcon(after)
     }

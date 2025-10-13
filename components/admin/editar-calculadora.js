@@ -13,7 +13,6 @@ export default function EditarCalculadoraPage({ calculadora, todasCalculadoras }
     todasCalculadoras = JSON.parse(todasCalculadoras)
 
     const [form, setForm] = useState(calculadora);
-    const [loading, setLoading] = useState(false);
     const [entradas, setEntradas] = useState(calculadora.entradas)
     const [referencias, setReferencias] = useState(calculadora.referencias)
 
@@ -77,7 +76,7 @@ export default function EditarCalculadoraPage({ calculadora, todasCalculadoras }
         setReferencias(newReferencias)
     }
 
-    if (loading || !form) return <p>Carregando...</p>;
+    // if (loading || !form) return <p>Carregando...</p>;
 
     return (
         <div className="container mt-4 mb-5"> {/* Adicionado mb-5 para espaço no final */}

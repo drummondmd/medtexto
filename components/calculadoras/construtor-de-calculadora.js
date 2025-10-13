@@ -242,7 +242,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
                                 </div>
                                 <div className="row">
                                     <div role="button" className="btn col-md-6 " onClick={copyText} >Copiar</div>
-                                    <div role="button" className=" btn col-md-6 " onClick={() => { setResultado([]), modifyPar() }}>
+                                    <div role="button" className=" btn col-md-6 " onClick={() => { setResultado([]); modifyPar() }}>
                                         Apagar</div>
 
 

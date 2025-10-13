@@ -219,7 +219,7 @@ export default function ConfiguracoesGrid({ userNameSlug, userDetail,isSenhaDefi
                             <div className="card-body p-4">
                                 <h5 className="card-title text-danger mb-3">Apagar Conta</h5>
                                 <p className="card-text text-muted mb-4">
-                                    Se deseja excluir sua conta e apagar todos dados salvos, digite "Deletar conta"
+                                    Se deseja excluir sua conta e apagar todos dados salvos, digite &quot;Deletar conta&quot;
                                 </p>
                                 <div className="row align-items-end">
                                     <div className="col-md-6 mb-3 mb-md-0">

@@ -1,7 +1,7 @@
 'use client'
 
 import { updateUserForm, createUserForm } from "@/lib/form-action"
-import { useActionState, useState } from "react"
+import { useActionState } from "react"
 
 export default function FormCompleto({ firstUser, userDetail, username }) {
   ////data adquirida pelo usuario sendo formatado errado e não colocando no display

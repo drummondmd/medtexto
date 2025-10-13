@@ -32,7 +32,7 @@ export default function CriarUsuario() {
                         <div className="align-self-center"><h2>Crie seu usuario:</h2></div>
                         <div className="form-group">
                             <label className="form-label">Username</label>
-                            <input type="text" onChange={(e) => {setUserInput(e.target.value.toLowerCase()),setUserDisponivel({response:null, mensagem:""}),setAcessar(true)}} className="form-control" placeholder="Digite o usuario desejado..."></input>
+                            <input type="text" onChange={(e) => {setUserInput(e.target.value.toLowerCase());setUserDisponivel({response:null, mensagem:""});setAcessar(true)}} className="form-control" placeholder="Digite o usuario desejado..."></input>
                             <button type="button" className="my-3 btn btn-primary col-12" onClick={checkDb}>Checar se usuário disponivel</button>
                             {userDisponivel.response && <div><p>Usuario Disponivel,complete cadastro abaixo.</p><CreateUserForm userName={userNameInput} /></div>}
                             {userDisponivel.response === false && <div className={classes.erroUsuario}>

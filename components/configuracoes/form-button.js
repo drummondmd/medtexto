@@ -1,7 +1,7 @@
 'use client'
 
 import { delteUserHandle } from "@/lib/handler-action"
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 
 

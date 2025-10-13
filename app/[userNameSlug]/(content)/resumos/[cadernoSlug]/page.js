@@ -1,4 +1,4 @@
-import { getUser, getCadernoResumo, getUserProfile } from "@/lib/databases/handler-pgdb";
+import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb";
 import NotasResumos from "@/components/resumos/notas";
 import { notFound } from "next/navigation";
 import { getUserMongo } from "@/lib/databases/handler-mongodb";

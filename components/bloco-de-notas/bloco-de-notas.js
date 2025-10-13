@@ -49,7 +49,7 @@ export default function BlocoDeNotas({ user, inputDb }) {
             const array = input.split("\n");
             let arrayFirstUpperCase = []
 
-            array.forEach((linha, index) => {
+            array.forEach((linha) => {
                 if (linha.length > 1) {
                     arrayFirstUpperCase.push(linha.replace(linha[0], linha[0].toUpperCase()))
                 } else {

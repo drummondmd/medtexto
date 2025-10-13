@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-export default function NotFound({ params }) {
+export default function NotFound() {
     const pathname =  usePathname();
     const userNameSlug = pathname.split("/")[1]
 

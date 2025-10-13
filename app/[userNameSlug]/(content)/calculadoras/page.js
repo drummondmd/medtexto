@@ -1,5 +1,4 @@
 import CalculadorasGrid from "@/components/calculadoras/calculadoras-grid";
-import { getCalculadoras } from "@/lib/databases/handler-mongodb";
 import { Suspense } from "react";
 import Loading from "../../loading";
 import { calculadorasEstaticas } from "@/lib/calculadoras/calc-static";

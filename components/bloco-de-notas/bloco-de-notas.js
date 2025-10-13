@@ -49,10 +49,10 @@ export default function BlocoDeNotas({ user, inputDb }) {
             const array = input.split("\n");
             let arrayFirstUpperCase = []
 
-            array.forEach((linha,index)=>{
-                if(linha.length>1){
-                    arrayFirstUpperCase.push(linha.replace(linha[0],linha[0].toUpperCase()))
-                }else{
+            array.forEach((linha, index) => {
+                if (linha.length > 1) {
+                    arrayFirstUpperCase.push(linha.replace(linha[0], linha[0].toUpperCase()))
+                } else {
                     arrayFirstUpperCase.push(linha)
 
                 }
@@ -87,7 +87,7 @@ export default function BlocoDeNotas({ user, inputDb }) {
                 <div className="d-inline mx-2 p-2" onClick={() => changeCase("first")}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#1f1f1f"><path d="M347-249v-360H229v-63h302v63H413v360h-66Zm337 9q-43.06 0-67.53-25.23Q592-290.47 592-335v-158h-52v-58h52v-85h65v85h73v58h-73v144.54Q657-326 667.28-313t27.91 13q8.81 0 17.81-3 9-3 18-9v63.16Q720-244 708.63-242q-11.37 2-24.63 2Z" /></svg>
                 </div>
-                <div className="d-inline mx-2 p-2" onClick={() => setInput("")}>
+                <div className="d-inline mx-2 p-2" onClick={() => { setInput(""); updateBloco(user, "") }}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />

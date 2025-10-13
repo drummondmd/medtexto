@@ -1,8 +1,8 @@
 'use client'
 
+import recToTexFunction from "@/actions/receituarios/rec-to-text-function";
 import { ClipboardCheck } from "lucide-react";
 import { useState } from "react"
-import { text } from "stream/consumers"
 
 export default function ReceitaParaTexto() {
 
@@ -14,7 +14,7 @@ export default function ReceitaParaTexto() {
 
     async function handleTransform() {
         setErro(null);
-        const response = { success: false, output: "teste", message: "Função executada com sucesso" }
+        const response = await recToTexFunction(receita)
         if (response.success) {
             setTexto(response.output)
         } else {
@@ -57,7 +57,7 @@ export default function ReceitaParaTexto() {
 
                 />
             </div>
-            {erro && <span className="bg-red-400">{erro}</span>}
+            {erro && <span className="text-danger p-1">{erro}</span>}
             <div className="my-2" >
                 <textarea
                     value={receita}

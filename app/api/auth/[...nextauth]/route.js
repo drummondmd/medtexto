@@ -11,7 +11,7 @@ const handler = NextAuth({
             username: { label: "Username", type: "text", placeholder: "usuario" },
             password: { label: "Senha", type: "password" }
         },
-        async authorize(credentials, req) {
+        async authorize(credentials) {
             try {
                 const user = await getUser(credentials.username)
                 const isMatchedPassword = await checkPassword(credentials.password, user.senha_hash);

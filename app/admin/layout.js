@@ -1,5 +1,6 @@
 // app/admin/layout.js
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Admin | MedTexto',
@@ -13,16 +14,16 @@ export default function AdminLayout({ children }) {
         <h5>Painel Admin</h5>
         <ul className="nav flex-column mt-4">
           <li className="nav-item">
-            <a className="nav-link text-white" href="/admin">Dashboard</a>
+            <Link className="nav-link text-white" href="/admin">Dashboard</Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="/admin/calculadoras">Calculadoras</a>
+            <Link className="nav-link text-white" href="/admin/calculadoras">Calculadoras</Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="/admin/usuarios">Usuários</a>
+            <Link className="nav-link text-white" href="/admin/usuarios">Usuários</Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="/admin/contatos">Contatos</a>
+            <Link className="nav-link text-white" href="/admin/contatos">Contatos</Link>
           </li>
         </ul>
       </div>

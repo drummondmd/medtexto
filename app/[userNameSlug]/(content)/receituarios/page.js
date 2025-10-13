@@ -22,7 +22,6 @@ export default async function Receituarios({ params }) {
 
     ///especifico
     const receituarios =  JSON.stringify(userMongo.receituarios)
-    const receituarioTransforma = JSON.stringify(userMongo.receituarioTransforma)
 
 
 

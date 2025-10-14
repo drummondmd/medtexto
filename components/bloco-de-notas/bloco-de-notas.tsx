@@ -5,12 +5,13 @@ import classes from "./bloco-de-notas.module.css";
 import CopyButton from "./buttons/copy-to";
 import SaveButton from "./buttons/save-to";
 import { updateBloco } from "@/lib/databases/handler-mongodb";
+import OcrControl from "./ocr-control";
 
 //// depois ver outras formas de salvar, como após ultima mudança, ao clicar fora
 export default function BlocoDeNotas({ user, inputDb }) {
 
 
-    const [input, setInput] = useState(inputDb.conteudo)
+    const [input, setInput] = useState<string>(inputDb.conteudo)
     const textAreaRef = useRef(null)
 
     useEffect(() => {
@@ -28,26 +29,22 @@ export default function BlocoDeNotas({ user, inputDb }) {
 
     function onChangeInput(e) {
         ajustarAltura()
-
-
         setInput(e.target.value)
 
     }
 
     function changeCase(whatCase) {
         ///fazer usestate para mudar aspecto depois
-
-
         if (whatCase === "upper") {
-            let newInput = input.toUpperCase();
+            const newInput = input.toUpperCase();
             setInput(newInput)
         } if (whatCase === "lower") {
-            let newInput = input.toLowerCase();
+            const newInput = input.toLowerCase();
             setInput(newInput)
         } if (whatCase === "first") {
             // let newInput = input.replace(input[0],input[0].toUpperCase())
             const array = input.split("\n");
-            let arrayFirstUpperCase = []
+            const arrayFirstUpperCase = []
 
             array.forEach((linha) => {
                 if (linha.length > 1) {
@@ -61,7 +58,7 @@ export default function BlocoDeNotas({ user, inputDb }) {
 
 
 
-            let newInput = arrayFirstUpperCase.join("\n")
+            const newInput = arrayFirstUpperCase.join("\n")
             setInput(newInput)
 
 
@@ -76,7 +73,7 @@ export default function BlocoDeNotas({ user, inputDb }) {
     return (
         <div className="container my-3" onClick={() => updateBloco(user, input)}>
             <h6 className="display-6">Bloco de notas temporário</h6>
-
+            <OcrControl state={input} onChangeFunction={setInput} />
             <div className={`my-3 p-2 ${classes.control}`} onClick={(e) => e.stopPropagation()}>
                 <div className="d-inline mx-2 p-2" onClick={() => changeCase("upper")}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#1f1f1f"><path d="M660-263v-246l-57 57-51-51 144-144 144 144-51 51-57-57v246h-72Zm-516 0 162-432h78l162 432h-75l-38-110H258l-39 110h-75Zm136-172h130l-63-179h-4l-63 179Z" /></svg>
@@ -98,7 +95,7 @@ export default function BlocoDeNotas({ user, inputDb }) {
             </div>
             <div className="my-3">
 
-                <textarea ref={textAreaRef} spellCheck={"true"} name="temp" maxLength="45000" id=""
+                <textarea ref={textAreaRef} spellCheck={"true"} name="temp" maxLength={45000} id=""
                     className={classes.notepad} value={input} onChange={onChangeInput}></textarea>
 
             </div>

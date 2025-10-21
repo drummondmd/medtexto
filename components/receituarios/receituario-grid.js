@@ -53,14 +53,17 @@ export default function ReceituarioGrid({ user, data }) {
 
 
     return (
-        <>
+
+        <div className="container">
             <h6>Receituários Padrão</h6>
             {openModal && <CreateCaderno recurso={"receituario"} isCaderno={false} handlerForm={createReceituario} user={user} boolean={openModal} close={() => setModal(false)} />}
             <ReceituarioControl clickHandler={changeReceituario} selected={selected} cadernos={cadernos} newEntry={() => setModal(true)} />
             {isContent && <ToolbarRecEv resource={"receituarios"} selected={selected} user={user} />}
             <ReceituarioPadrao changeText={changeText} user={user} selected={selected} />
 
-        </>
+        </div>
+
+
 
     )
 

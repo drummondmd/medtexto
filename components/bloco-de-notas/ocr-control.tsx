@@ -10,7 +10,7 @@ import { CircularProgress } from "@mui/material";
 
 
 
-export default function OcrControl({ state, onChangeFunction }: { state: string, onChangeFunction: SetStateAction<string> }) {
+export default function OcrControl({ state, onChangeFunction }: { state: string, onChangeFunction: (value: SetStateAction<string>) => void }) {
     const [file, setFile] = useState<File>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [process, setProcess] = useState<{ isSelected?: boolean, ok: boolean, message?: string }>({ ok: true })
@@ -34,7 +34,7 @@ export default function OcrControl({ state, onChangeFunction }: { state: string,
             alert("Selecione arquivo");
             return
         }
-        setIsLoading(true)
+        setIsLoading(true);
         setProcess({ ok: true })
         const route = e.target.id as "texto" | "receita"
         const worker = await createWorker('por');
@@ -107,11 +107,12 @@ export default function OcrControl({ state, onChangeFunction }: { state: string,
                 {process.ok && process.message}
                 {!process.ok && process.message}
             </div>
-            <div title="Texto Simples" id="texto" className="d-inline mx-2 p-2" onClick={onSubmit}>
+            <div role="button" title="Texto Simples" id="texto" className="d-inline mx-0 mx-md-2 p-2" onClick={onSubmit}>
                 Texto
             </div>
-            <div title="Receituario" id="receita" className="d-inline mx-2 p-2" onClick={onSubmit} >
+            <div role="button" title="Receituario" id="receita" className="d-inline mx-0 mx-md-2 p-2" onClick={onSubmit} >
                 Receituário
+
             </div>
 
         </div>

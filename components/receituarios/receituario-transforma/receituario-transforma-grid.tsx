@@ -9,7 +9,7 @@ export default function RecTrasformaGrid() {
     const [display, setDisplay] = useState<1 | 2>(1)
 
     return (
-        <div>
+        <div className="container mt-5 mt-lg-2">
             <div>
                 <div className="d-inline">
                     <button type="button" className={`btn ${display === 1 ?"btn-secondary":"btn-outline-secondary"} mx-1`} onClick={()=>setDisplay(1)}>Texto p/ Receita</button>

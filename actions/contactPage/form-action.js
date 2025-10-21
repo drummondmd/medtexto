@@ -19,7 +19,7 @@ export default async function contactForm(formData){
 
 
     if(isInvalid(user)||isInvalid(email)||isInvalid(email)||isInvalid(motivo)||isInvalid(mensagem)){
-        console.log("informação errada do usuário")
+        console.error("informação errada do usuário")
         return {erro:"Insira os dados corretamentes ou tente novamente mais tarde"}
     }
 

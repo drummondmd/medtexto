@@ -4,9 +4,9 @@ const quantidadeReference = [/(\d+)\s*comprimido(?:s)?\/m[eê]s/i, /(\d+)\s*comp
 
 const posologiaReference = {
     "MID":
-        ["Tomar 1 comprimido ao dia", /(\d+)\s*Comprimido\(s\)\s*de\s*(\d+)\s*mg,\s*Uso Oral,\s*(1 vez à noite|1 vez pela manh(ã|a|á|ä)|1 vez ao dia)\s*, durante\s*(\d+)\s*dias/i, /tomar\s*1\s*(comprimido|cp)\s*(ao\s*dia|1x\/dia)/i, "1 vez pela manhã", "1 vez à noite"],
+        [/1 vez ao dia/i, "Tomar 1 comprimido ao dia", /(\d+)\s*Comprimido\(s\)\s*de\s*(\d+)\s*mg,\s*Uso Oral,\s*(1 vez à noite|1 vez pela manh(ã|a|á|ä)|1 vez ao dia)\s*, durante\s*(\d+)\s*dias/i, /tomar\s*1\s*(comprimido|cp)\s*(ao\s*dia|1x\/dia)/i, "1 vez pela manhã", "1 vez à noite", "TOMAR 1 COMPRIMIDO, PELA MANHÃ"],
     "BID":
-        ["Tomar 1 comprimido de 12/12 horas", /tomar\s*1\s*(comprimido|cp|cápsula )\s*(de\s*)?(12\/12|2x\/dia|duas\s*vezes\s*ao\s*dia)/i],
+        [/(12 em 12 horas)/i, "Tomar 1 comprimido de 12/12 horas", /tomar\s*1\s*(comprimido|cp|cápsula )\s*(de\s*)?(12\/12|2x\/dia|duas\s*vezes\s*ao\s*dia)/i],
     "TID":
         ["Tomar 1 comprimido de 8/8 horas", /tomar\s*1\s*(comprimido|cp)\s*(de\s*)?(8\/8|3x\/dia|tr[eê]s\s*vezes\s*ao\s*dia)/i],
     "QID":
@@ -15,88 +15,49 @@ const posologiaReference = {
 
 const sobDemandaReference = ["em caso de necessidade"]
 
+const rotaDeAdminstracao = [/(uso oral)\s*(\W)/i,]
+
 
 export default async function recToTexFunction(input: string): Promise<{ success: boolean, output?: string, message?: string }> {
     if (!input) return { success: false, message: "Insirá um valor" };
-    const array = input.split(/\b\d+\)/gi).filter((elem) => elem != "");
-    let outputString = "";
+    let isClean: boolean = true
+    const array = input
+        .split("\n")
+        .filter(elem => elem != "")
+        .map((elem, idx) => {
+            const isMed = isMedFuncion(elem)
+            const isPos = isPosFunction(elem)
+            const isBoth = isMed != false && isPos != false ? true : false
+            const isTrash = isMed === false && isPos === false ? true : false
 
-
-    const firstClean = array.map((elem, index) => {
-        const transformed = elem
-            .replace(/\n/g, '')
-            .replace(/(\W)\1+/, '')
-
-        return transformed
-
-
-    });
-
-    const quantidadeModifier = firstClean.map((elem) => {
-        let transformed: string;
-        for (const frase of quantidadeReference) {
-            const regEx = typeof frase === "string" ? new RegExp(frase, "gi") : frase;
-            if (regEx.test(elem)) {
-                transformed = elem.replace(regEx, "");
-                break;
-            } else {
-                transformed = elem
+            if (isBoth) {
+                isClean = false
             }
-
-        }
-
-        return transformed
-
-
-
-
-    })
-
-    const posologiaModifier = quantidadeModifier.map((elem, index) => {
-        for (const [codigo, frases] of Object.entries(posologiaReference)) {
-            for (const frase of frases) {
-
-                const regEx = typeof frase === "string" ? new RegExp(frase, "gi") : frase;
-                if (regEx.test(elem)) {
-                    return elem.replace(frase, codigo);
-                }
+            return {
+                string: elem,
+                isMed: isMed,
+                isPos: isPos,
+                isBoth: isBoth,
+                isTrash: isTrash
             }
-        }
-        ///fazer um log posteriormente para acrescentar na base de dados depois.
-        return elem;
+        })
+        .filter(elem => elem.isTrash === false)
 
-    })
+    ////depois fazer um refinamento do is Clean;
 
-    const sobDemandaModifier = posologiaModifier.map((elem) => {
-        for (const frase of sobDemandaReference) {
-            const regEx = new RegExp(frase, "gi");
-            if (regEx.test(elem)) {
-                return elem.replace(frase, "SN");
-            }
-            return elem
-            ///fazer um log posteriormente para acrescentar na base de dados depois.}
-        }
-    })
+    let transformedArray: Array<string> = []
 
-    const secondClean = sobDemandaModifier.map((elem) => {
-        const transformed = elem
-            .replace(/[;,.]+/g, " ")
-            .replace(/\s+/g, " ")
-            .replace(/(\d+)\s*Unidade\(s\)/i, '')
-            .replace(/(\d+)\s*Comprimido\(s\)/i, '')
-            .replace(/(comprimido|cápsula)/i, '')
-            .replace(/(revestido)/i, '')
-            .replace(/(uso oral)/gi, '')
-            .replace(/(durante (\d+) dias)/i, '')
-            .replace(/\s{2,}/i, ' ')
-            .trim()
-
-        return transformed
-
-    })
+    if (isClean) {
+        transformedArray = cleanTransform(array)
+    }
+    if (!isClean) {
+        transformedArray = dirtyTransform(array)
+    }
 
     ///transformaçao para string
-    secondClean.forEach((elem) => {
+    let outputString: string = "";
+
+    transformedArray.forEach((elem) => {
         outputString = outputString.length === 0 ? elem : outputString + " ; " + elem
     })
 
@@ -104,11 +65,269 @@ export default async function recToTexFunction(input: string): Promise<{ success
     //later
 
 
+
     ///se tudo der certo
     return { success: true, message: "Funcionte", output: outputString }
 
-}
-
-function testRecToFunction(input,outputString){
 
 }
+
+function isMedFuncion(string: string): Array<true> | false {
+    let array = [];
+    const regExArray = [/\b\d+(\)|\.)/gi, /\d+\s*(mg|mcg)/i]
+
+    for (const regEx of regExArray) {
+        if (regEx.test(string)) {
+            array.push(true)
+        }
+
+    }
+
+    if (array.length === 0) {
+        return false
+    } else {
+        return array
+    }
+
+
+}
+
+function isPosFunction(string: string): Array<true> | false {
+    let array = [];
+    const regExArray = [/(tomar)/i, /(1 vez ao dia|de 12 em 12 horas)/i, /durante\s*(\d+)\s*dias/i]
+
+    for (const regEx of regExArray) {
+        if (regEx.test(string)) {
+            array.push(true)
+        }
+
+    }
+
+    if (array.length === 0) {
+        return false
+    } else {
+        return array
+    }
+
+
+}
+
+function cleanTransform(arryOfObjects: Array<{ string: string; isMed: false | true[]; isPos: false | true[]; isBoth: boolean; isTrash: boolean; }>): string[] {
+
+    const outputArray: Array<string> = [];
+    arryOfObjects.forEach((elem, idx) => {
+        if (elem.isMed != false) {
+            outputArray.push(medReplace(elem.string));
+
+        } else {
+            outputArray[outputArray.length - 1] = outputArray[outputArray.length - 1] + " " + posReplace(elem.string)
+            // outputArray.push(posReplace(elem.string));
+
+        }
+        // Currently apply the same replacement for both cases; adjust logic here if needed
+    });
+    // console.log(outputArray)
+
+    return outputArray;
+}
+
+function medReplace(string: string): string {
+
+    let outputString = string
+        .replace(/(\W)\1+/, '')
+        .replace(/(uso oral)\s*(\W)/i, '')
+        .replace(/(\d+)\s*(\))/i, '')
+        .replace(/besilato/i, "")
+        .replace(/equivale a/i, "")
+        .trim()
+
+    for (const frase of quantidadeReference) {
+        const regEx = typeof frase === "string" ? new RegExp(frase, "gi") : frase;
+        if (regEx.test(outputString)) {
+            outputString = outputString.replace(regEx, "");
+            break;
+        } else {
+            outputString = outputString
+        }
+
+    }
+
+    let secondClean = outputString
+        .replace(/comprimido/gi, '')
+        .replace(/unidade/gi, '')
+        .replace(/(\W)/gi, ' ')
+
+
+
+    let finalString: string = ""
+
+    const splitedString = secondClean
+        .split(" ")
+        .filter(elem => {
+            const regEx = new RegExp(/\W+/, "i");
+            if (elem === "" || regEx.test(elem)) {
+                return false
+            } else {
+                return true
+            }
+        })
+
+    splitedString.forEach(elem => finalString = finalString.length > 0 ? finalString + " " + elem : elem)
+
+    return finalString
+
+}
+
+function posReplace(string: string): string {
+    let isSobDemanda = false;
+    let modifiedString = "";
+
+    for (const frase of sobDemandaReference) {
+        const regEx = new RegExp(frase, "gi");
+        if (regEx.test(string)) {
+            isSobDemanda = true;
+            break;
+        }
+    }
+
+    for (const [codigo, frases] of Object.entries(posologiaReference)) {
+        for (const frase of frases) {
+            const regEx = typeof frase === "string" ? new RegExp(frase, "gi") : frase;
+            if (regEx.test(string)) {
+                modifiedString = codigo
+                break;
+            }
+        }
+
+    }
+
+    if (modifiedString.length === 0) {
+        modifiedString = "q_"
+    }
+    if (isSobDemanda) {
+        modifiedString = modifiedString + " " + "SN"
+    }
+
+    return modifiedString
+
+}
+
+function dirtyTransform(arryOfObjects: Array<{ string: string; isMed: false | true[]; isPos: false | true[]; isBoth: boolean; isTrash: boolean; }>): string[] {
+    const splited = []
+    const regroup = arryOfObjects
+        .map(elem => elem.string.split(/(\.|;)|(\d+)\s*(\))|(\d+)\s*(Comprimido\(s\)|Unidades\(s\))|(Uso Oral)|/gi))
+
+    regroup.forEach(elem => {
+        elem.forEach(string => {
+            if (string != undefined) splited.push(string)
+        })
+    })
+
+
+
+    const splitedFiltered = splited
+        .filter(elem => elem != "")
+        .map((elem, idx) => {
+            const isMed = isMedFuncion(elem)
+            const isPos = isPosFunction(elem)
+            const isBoth = isMed != false && isPos != false ? true : false
+            const isTrash = isMed === false && isPos === false ? true : false
+
+            return {
+                string: elem,
+                isMed: isMed,
+                isPos: isPos,
+                isBoth: isBoth,
+                isTrash: isTrash
+            }
+        })
+        .filter(elem => elem.isTrash === false)
+    // .map(elem => {
+    //     if (elem.isBoth) {
+    //         if (elem.isMed != false && elem.isPos != false && elem.isMed.length > elem.isPos.length) {
+    //             return { ...elem, isPos: false }
+    //         } else {
+    //             return { ...elem, isMed: false }
+    //         }
+
+    //     } else {
+    //         return elem
+    //     }
+
+    // })
+
+
+
+    let arryOfObjects2: Array<{
+        string: any;
+        isMed: false | true[];
+        isPos: false | true[];
+        isBoth: boolean;
+        isTrash: boolean;
+    }> = [];
+
+    splitedFiltered.forEach((elem, idx) => {
+        if (elem.isMed) {
+            if (idx === 0) {
+                arryOfObjects2.push(elem)
+            }
+            else if (idx != 0 && arryOfObjects2[arryOfObjects2.length - 1].isMed === false) {
+                arryOfObjects2.push(elem)
+
+            } else {
+                ///se ultimo item for med checar se atual ou previo é o maior e colocar.
+                if (arryOfObjects2[arryOfObjects2.length - 1].string.length < elem.string.length) {
+                    arryOfObjects2[arryOfObjects2.length - 1] = elem
+                }
+
+            }
+        } else if (elem.isPos) {
+            arryOfObjects2.push(elem)
+        }
+    })
+
+
+
+
+
+
+    // const splited = regroup
+    //     .map((elem) => {
+    //         const newArray = []
+    //         newArray.push(elem)
+    //         return newArray
+    //     })
+
+
+    // console.log(splitedFiltered)
+    // .map(elem => elem.string.split(/(\.|;)/i))
+
+    // console.log(regroup)
+
+
+    // .split(/(\.|;)|(\d+)\s*(\))|(\d+)\s*(Comprimido\(s\)|Unidades\(s\))/i)
+
+
+
+    // console.log(regroup)
+    return cleanTransform(arryOfObjects2)
+
+
+    // const outputArray: Array<string> = [];
+    // arryOfObjects.forEach((elem, idx) => {
+    //     if (elem.isMed != false) {
+    //         outputArray.push(medReplace(elem.string));
+
+    //     } else {
+    //         outputArray[outputArray.length -1] = outputArray[outputArray.length -1] + " " + posReplace(elem.string)
+    //         // outputArray.push(posReplace(elem.string));
+
+    //     }
+    //     // Currently apply the same replacement for both cases; adjust logic here if needed
+    // });
+    // console.log(outputArray)
+
+    // return outputArray;
+}
+
+

@@ -96,7 +96,7 @@ export async function resetPassAction(prev, formData) {
         }
 
     } catch (error) {
-        console.log(error, "erro ao atulizar database")
+        console.error(error, "erro ao atulizar database")
         return {
             payload: formData,
             erro: "Erro ao atualizar senha"

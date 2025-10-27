@@ -1,6 +1,6 @@
 'use server'
 
-const quantidadeReference = [/(\d+)\s*comprimido(?:s)?\/m[eê]s/i, /(\d+)\s*comprimido(?:\(s\)|s) de (\d+) mg/i, /(\d+)\s*comprimido(?:\(s\)|s)/i, /(\d+)\s*Unidade(?:\(s\)|s)/i]
+const quantidadeReference = [/(\d+)\s*comprimido(?:s)?\/m[eê]s/i, /(\d+)\s*comprimido(?:\(s\)|s) de (\d+) mg/i, /(\d+)\s*comprimido(?:\(s\)|s)/i, /(\d+)\s*Unidade(?:\(s\)|s)/gi]
 
 const posologiaReference = {
     "MID":
@@ -141,6 +141,7 @@ function medReplace(string: string): string {
         .replace(/equivale a/i, "")
         .trim()
 
+
     for (const frase of quantidadeReference) {
         const regEx = typeof frase === "string" ? new RegExp(frase, "gi") : frase;
         if (regEx.test(outputString)) {
@@ -151,6 +152,9 @@ function medReplace(string: string): string {
         }
 
     }
+
+        console.log(outputString)
+
 
     let secondClean = outputString
         .replace(/comprimido/gi, '')
@@ -213,16 +217,22 @@ function posReplace(string: string): string {
 }
 
 function dirtyTransform(arryOfObjects: Array<{ string: string; isMed: false | true[]; isPos: false | true[]; isBoth: boolean; isTrash: boolean; }>): string[] {
-    const splited = []
-    const regroup = arryOfObjects
-        .map(elem => elem.string.split(/(\.|;)|(\d+)\s*(\))|(\d+)\s*(Comprimido\(s\)|Unidades\(s\))|(Uso Oral)|/gi))
+    const splited = [];
+    arryOfObjects.forEach((elem) => {
+        let arrayOfStrings = elem.string.split(/(\d+)\s*(\))|(\.|;)|(Uso Oral)/gi);
+        arrayOfStrings.forEach((string => {
+            if (string != undefined) {
+                let cleanedString = string
+                    .replace(/(\d+)\s*comprimido\(s\)/gi, '')
+                    .replace(/comprimido/gi,'')
+                    .replace(/(de)\s*(\d+)\s*(mg|mcg)/gi,'')
+                splited.push(cleanedString)
 
-    regroup.forEach(elem => {
-        elem.forEach(string => {
-            if (string != undefined) splited.push(string)
-        })
+            }
+
+        }))
     })
-
+    //string antigo= arryOfObjects.map(elem => {elem.string.split(/(\.|;)|(\d+)\s*(\))|(\d+)\s*(Comprimido\(s\)|Unidades\(s\))|(Uso Oral)|/gi))
 
 
     const splitedFiltered = splited
@@ -242,21 +252,6 @@ function dirtyTransform(arryOfObjects: Array<{ string: string; isMed: false | tr
             }
         })
         .filter(elem => elem.isTrash === false)
-    // .map(elem => {
-    //     if (elem.isBoth) {
-    //         if (elem.isMed != false && elem.isPos != false && elem.isMed.length > elem.isPos.length) {
-    //             return { ...elem, isPos: false }
-    //         } else {
-    //             return { ...elem, isMed: false }
-    //         }
-
-    //     } else {
-    //         return elem
-    //     }
-
-    // })
-
-
 
     let arryOfObjects2: Array<{
         string: any;

@@ -13,6 +13,7 @@ export default function CalculadorasAdminPage() {
         async function fetchData() {
             try {
                 const res = await getCalculadoras();
+                console.log(res)
                 const parsed = res.map(c => ({
                     ...c,
                     _id: c._id?.toString(),

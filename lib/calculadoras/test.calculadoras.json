@@ -1,0 +1,371 @@
+[
+{
+  "_id": {
+    "$oid": "67f432af599cb9587779a1bf"
+  },
+  "titulo": "Escore de Wells para TVP",
+  "descricao": "Avalia probabilidade clínica pré-teste de trombose venosa profunda.",
+  "instrucoes": "Os Critérios de TVP de Wells podem ser utilizados em ambulatórios e na emergência. ",
+  "entradas": [
+    {
+      "nome": "cancer",
+      "displayNome": "Câncer ativo",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1,
+          "_id": {
+            "$oid": "68360430302d905091c1ccad"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccae"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccac"
+      }
+    },
+    {
+      "nome": "imobilizacao",
+      "displayNome": "Paralisia ou imobilização de MMII",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1,
+          "_id": {
+            "$oid": "68360430302d905091c1ccb0"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccb1"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccaf"
+      }
+    },
+    {
+      "nome": "cirurgia",
+      "displayNome": "Repouso recente no leito por >3 dias ou cirurgia recente",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1,
+          "_id": {
+            "$oid": "68360430302d905091c1ccb3"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccb4"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccb2"
+      }
+    },
+    {
+      "nome": "sensibilidade",
+      "displayNome": "Aumento da sensibilidade ao longo do sistema venoso profundo",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1,
+          "_id": {
+            "$oid": "68360430302d905091c1ccb6"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccb7"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccb5"
+      }
+    },
+    {
+      "nome": "edema-mmii",
+      "displayNome": "Edema de todo membro",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1,
+          "_id": {
+            "$oid": "68360430302d905091c1ccb9"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccba"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccb8"
+      }
+    },
+    {
+      "nome": "edema-assimetrico",
+      "displayNome": "Edema unilateral >3cm que perna contralateral",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1,
+          "_id": {
+            "$oid": "68360430302d905091c1ccbc"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccbd"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccbb"
+      }
+    },
+    {
+      "nome": "cacifo",
+      "displayNome": "Edema depressível (cacifo) maior na perna afetada(unilateral)",
+      "inputType": "select",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": "1",
+          "_id": {
+            "$oid": "68360d58302d905091c1cd66"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": "0",
+          "_id": {
+            "$oid": "68360d58302d905091c1cd67"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360d58302d905091c1cd65"
+      }
+    },
+    {
+      "nome": "veias",
+      "displayNome": "Veias colaterais superficiais não-varicosas",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1,
+          "_id": {
+            "$oid": "68360430302d905091c1ccbf"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccc0"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccbe"
+      }
+    },
+    {
+      "nome": "tev-previo",
+      "displayNome": "TEV prévio",
+      "inputType": "select",
+      "obs": "",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": 1.5,
+          "_id": {
+            "$oid": "6834b5ee12bc6efeae79b21c"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "6834b5ee12bc6efeae79b21d"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "6834b5ee12bc6efeae79b21b"
+      }
+    },
+    {
+      "nome": "outro-diagnostico",
+      "displayNome": "Diagnóstico alternativo tão provável quanto TVP",
+      "inputType": "select",
+      "tipo": "radio",
+      "obs": "Celulite, Tromboflebite superficial,alterações osteoarticulares,câimbras,reputura muscular ou tendínea, alterações linfáticas.",
+      "entradas": [
+        {
+          "tipo": "radio",
+          "nome": "Sim",
+          "value": -2,
+          "_id": {
+            "$oid": "68360430302d905091c1ccc2"
+          }
+        },
+        {
+          "tipo": "radio",
+          "nome": "Não",
+          "value": 0,
+          "_id": {
+            "$oid": "68360430302d905091c1ccc3"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "68360430302d905091c1ccc1"
+      }
+    }
+  ],
+  "calculadorasRelacionadas": [
+    {
+      "$oid": "67f43275599cb9587779a1bc"
+    }
+  ],
+  "evidencia": "Critérios clínicos de Wells para TVP,Adição dos pontos selecionados.",
+  "referencias": [
+    {
+      "titulo": "Evaluation of D-Dimer in the Diagnosis of Suspected Deep-Vein Thrombosis",
+      "descricao": "Wells PS et al., Lancet 1997",
+      "link": "https://www.nejm.org/doi/10.1056/NEJMoa023153?url_ver=Z39.88-2003",
+      "_id": {
+        "$oid": "68360430302d905091c1ccab"
+      }
+    }
+  ],
+  "slug": "wells-tvp",
+  "functionLogic": "wellsTvp"
+},
+{
+  "_id": {
+    "$oid": "6806b1c95dad8b596b79a1b7"
+  },
+  "titulo": "Fórmula de Maddrey",
+  "descricao": "Prevê o prognóstico e o benefício dos esteroides na hepatite alcoólica.",
+  "instrucoes": "Utilize tempo de protrombina do paciente e controle, além da bilirrubina total.",
+  "entradas": [
+    {
+      "nome": "Tempo de Protrombina",
+      "inputType": "input",
+      "tipo": "number",
+      "unidade": "segundos",
+      "placeholder": "",
+      "obs": "TP do paciente",
+      "entradas": [],
+      "_id": {
+        "$oid": "68362603302d905091c1cf39"
+      }
+    },
+    {
+      "nome": "Tempo de Protrombina Controle",
+      "inputType": "input",
+      "tipo": "number",
+      "unidade": "segundos",
+      "placeholder": "VR: 11- 13",
+      "obs": "TP normal de referência",
+      "entradas": [],
+      "_id": {
+        "$oid": "68362603302d905091c1cf3a"
+      }
+    },
+    {
+      "nome": "Bilirrubina",
+      "inputType": "input",
+      "tipo": "number",
+      "unidade": "mg/dL",
+      "placeholder": "",
+      "obs": "Bilirrubina total",
+      "entradas": [],
+      "_id": {
+        "$oid": "68362603302d905091c1cf3b"
+      }
+    }
+  ],
+  "calculadorasRelacionadas": [
+    {
+      "$oid": "6806b1c95dad8b596b79a1b8"
+    }
+  ],
+  "evidencia": "Função Discriminante = 4,6 * (PT do Pt - PT de Controle) + TBili",
+  "referencias": [
+    {
+      "titulo": "Corticosteroid therapy of alcoholic hepatitis",
+      "descricao": "Prognostic indicators in alcoholic hepatitis.",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/352788/",
+      "_id": {
+        "$oid": "68362603302d905091c1cf38"
+      }
+    }
+  ],
+  "slug": "maddrey",
+  "functionLogic": "calcularMaddrey"
+}]

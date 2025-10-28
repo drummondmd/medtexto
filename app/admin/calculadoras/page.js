@@ -11,9 +11,9 @@ export default function CalculadorasAdminPage() {
 
     useEffect(() => {
         async function fetchData() {
+            ///mudar para rota atual depois
             try {
                 const res = await getCalculadoras();
-                console.log(res)
                 const parsed = res.map(c => ({
                     ...c,
                     _id: c._id?.toString(),

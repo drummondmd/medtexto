@@ -98,7 +98,6 @@ function posologiaQntText(isSN: boolean, isTempo: boolean, isModificador: boolea
     let unitario = 1;
 
     if (isModificador) {
-        console.log(isModificador, modPos)
         const [number, unidadeSplited] = modPos.match(/^(\d+)([a-zA-Z]+)$/).slice(1);
         if (parseInt(number) != 1) {
             cps = parseInt(number)

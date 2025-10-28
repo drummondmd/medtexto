@@ -3,34 +3,35 @@
 import { Fragment, useEffect, useState } from "react";
 import classes from "./construtor-de-calculadora.module.css"
 import Link from "next/link";
+import { CalculadoraEstrutura } from "@/lib/calculadoras/estrutura/calcType";
 
 
-export default function ConstrutorDeCalculadora({ calc }) {
+export default function ConstrutorDeCalculadora({ calc }: { calc: string }) {
 
 
     ///apagar não está apagando formData
 
+    type CalculadoraFE = Omit<CalculadoraEstrutura, "calculadorasRelacionadas"> & { calculadorasRelacionadas: CalculadoraEstrutura[] | [] }
 
-    calc = JSON.parse(calc)
+
+    const parsedCalc = JSON.parse(calc) as CalculadoraFE
     ///parametros
-
-    let parametros = {}
-    let entradas = calc.entradas;
+    let parametros : { [key: string]: string|number } = {}
+    let entradas = parsedCalc.entradas;
     entradas.map((entrada) => {
         if (entrada.inputType === "select") {
-            let defaultChecked = entrada.entradas.map((input) => {
-                let valueChecked = input.isDefault == "true" ? input.value : null
+            const defaultChecked = entrada.entradas.map((input) => {
+                const valueChecked = input.isDefault == true ? input.value : null
                 return valueChecked
             }).filter((elem) => elem != null)
-            let value = defaultChecked[0];
+            const value = defaultChecked[0];
             parametros[entrada.nome] = value || ""
         } else {
-            parametros[entrada.nome] = entrada.defaultValue || ""
+            parametros[entrada.nome] = ""
         }
     })
-
     ///states
-    const [displayCalc, setDisplayCalc] = useState(calc)
+    const [displayCalc, setDisplayCalc] = useState(parsedCalc)
     const [formData, setFormData] = useState(parametros)
     const [resultado, setResultado] = useState([])
     ///abrir aba de outras informações
@@ -59,10 +60,8 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
     }, [displayCalc])
 
-
-
     ///function para gerar jsx com base no array
-    function jsxForm(array) {
+    function jsxForm(array:CalculadoraFE) {
         return (
             array["entradas"].map((entrada) =>
                 ///modificar para li? dps
@@ -81,7 +80,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
                                 {/* input normal */}
                                 {(entrada.inputType === "input") &&
                                     <>
-                                        <div className="col-8"><input key={entrada.nome} type={entrada.tipo} name={entrada.nome} value={formData.nome} defaultValue={entrada.defaultValue || null} onChange={handleChange} className="form-control" placeholder={entrada.placeholder}></input></div>
+                                        <div className="col-8"><input key={entrada.nome} type={entrada.tipo} name={entrada.nome} value={formData.nome} onChange={handleChange} className="form-control" placeholder={entrada.placeholder}></input></div>
                                         <div className="col-4">{entrada.unidade}</div>
                                     </>
                                 }
@@ -91,7 +90,7 @@ export default function ConstrutorDeCalculadora({ calc }) {
 
                                     <Fragment key={input.nome}>
                                         <div className="col m-2">
-                                            <input className="btn-check" name={entrada.nome} id={entrada.nome + input.nome} type={input.tipo} value={input.value ?? input.nome} defaultChecked={input.isDefault == "true" && true} onChange={handleChange} />
+                                            <input className="btn-check" name={entrada.nome} id={entrada.nome + input.nome} type={input.tipo} value={input.value ?? input.nome} defaultChecked={input.isDefault} onChange={handleChange} />
                                             <label className="btn btn-outline-secondary" htmlFor={entrada.nome + input.nome} >{input.displayNome || input.nome}</label>
 
 
@@ -203,23 +202,26 @@ export default function ConstrutorDeCalculadora({ calc }) {
                         <div className="row">
                             <div className="col-md-4">
                                 <div>Calculadora:</div>
-                                <div role="buttom" onClick={() => setDisplayCalc(calc)} className={` ${displayCalc.titulo === calc.titulo ? "btn-secondary" : "btn-outline-secondary"} btn mx-2`}>
-                                    {calc.titulo}
+                                <div role="buttom" onClick={() => setDisplayCalc(parsedCalc)} className={` ${displayCalc.titulo === parsedCalc.titulo ? "btn-secondary" : "btn-outline-secondary"} btn mx-2`}>
+                                    {displayCalc.titulo}
                                 </div>
                             </div>
                             <div className="col-md-8">
                                 <div>
                                     Calculadoras Relacionadas:
                                 </div>
-                                <div>{calc["calculadorasRelacionadas"].map((segCalc) => {
-                                    console.log(segCalc)
-                                    return (
-                                        <div key={segCalc.slug} className={` ${displayCalc.titulo === segCalc.titulo ? "btn-secondary" : "btn-outline-secondary"} btn mx-2`} role="buttom" onClick={() => setDisplayCalc(segCalc)}>
-                                            {segCalc.titulo}
-                                        </div>
-                                    )
-                                })}
-                                </div>
+                                {parsedCalc["calculadorasRelacionadas"] && (
+                                    <div>{parsedCalc["calculadorasRelacionadas"].map((segCalc) => {
+                                        return (
+                                            <div key={segCalc.slug} className={` ${displayCalc.titulo === segCalc.titulo ? "btn-secondary" : "btn-outline-secondary"} btn mx-2`} role="buttom" onClick={() => setDisplayCalc(segCalc)}>
+                                                {segCalc.titulo}
+                                            </div>
+                                        )
+                                    })}
+                                    </div>
+
+                                )}
+
 
                             </div>
 

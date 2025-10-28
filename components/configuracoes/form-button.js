@@ -8,16 +8,6 @@ import { useRouter } from "next/navigation";
 export default function FormButton({ clickFunction, anotherClass, escrito,user_id,username,disabled }) {
     const route = useRouter()
 
-
-    // async function deleteUser(){
-    //     console.log("delete")
-    // }
-    // async function resetePass(){
-    //     console.log("resete")
-    // }
-
-
-
      function handleClick(clickFunction,user_id) {
         if(clickFunction === "deleteUser"){
             delteUserHandle(user_id)

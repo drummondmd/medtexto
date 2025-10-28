@@ -126,7 +126,6 @@ function cleanTransform(arryOfObjects: Array<{ string: string; isMed: false | tr
         }
         // Currently apply the same replacement for both cases; adjust logic here if needed
     });
-    // console.log(outputArray)
 
     return outputArray;
 }
@@ -153,7 +152,6 @@ function medReplace(string: string): string {
 
     }
 
-        console.log(outputString)
 
 
     let secondClean = outputString
@@ -281,48 +279,9 @@ function dirtyTransform(arryOfObjects: Array<{ string: string; isMed: false | tr
         }
     })
 
-
-
-
-
-
-    // const splited = regroup
-    //     .map((elem) => {
-    //         const newArray = []
-    //         newArray.push(elem)
-    //         return newArray
-    //     })
-
-
-    // console.log(splitedFiltered)
-    // .map(elem => elem.string.split(/(\.|;)/i))
-
-    // console.log(regroup)
-
-
-    // .split(/(\.|;)|(\d+)\s*(\))|(\d+)\s*(Comprimido\(s\)|Unidades\(s\))/i)
-
-
-
-    // console.log(regroup)
     return cleanTransform(arryOfObjects2)
 
 
-    // const outputArray: Array<string> = [];
-    // arryOfObjects.forEach((elem, idx) => {
-    //     if (elem.isMed != false) {
-    //         outputArray.push(medReplace(elem.string));
-
-    //     } else {
-    //         outputArray[outputArray.length -1] = outputArray[outputArray.length -1] + " " + posReplace(elem.string)
-    //         // outputArray.push(posReplace(elem.string));
-
-    //     }
-    //     // Currently apply the same replacement for both cases; adjust logic here if needed
-    // });
-    // console.log(outputArray)
-
-    // return outputArray;
 }
 
 

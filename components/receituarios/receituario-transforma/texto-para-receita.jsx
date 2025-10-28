@@ -15,7 +15,6 @@ export default function TextoParaReceita() {
         setError(null)
         setRec("...Carregando")
         const response = await textToRecFunction(text, rec);
-        console.log(response)
         if (!response.success) {
             setError(response.message)
         } else {

@@ -4,7 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "tailwindcss";
 
 import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "MedTexto",
@@ -19,13 +19,8 @@ export default function RootLayout({ children }) {
           {children}
           <Analytics />
           <SpeedInsights />
-
         </body>
       </html>
-
-
-
     </>
-
   );
 }

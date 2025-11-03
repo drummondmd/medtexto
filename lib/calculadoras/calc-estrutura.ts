@@ -6,13 +6,11 @@ import { neuro } from "./estrutura/neuro";
 import { pneumo } from "./estrutura/pneumo";
 
 ///rever logica do meldSodio depoiss
-export const estruturaCalculadoras=[
-    ...nefro,
-    ...pneumo,
-    ...geral,
-    ...gastro,
-    ...hemato,
-    ...neuro
-
-
-]
+export const estruturaCalculadoras = [
+  ...nefro,
+  ...pneumo,
+  ...geral,
+  ...gastro,
+  ...hemato,
+  ...neuro,
+];

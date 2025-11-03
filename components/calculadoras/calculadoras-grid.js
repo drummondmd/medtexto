@@ -1,31 +1,38 @@
-'use client'
-import { useState } from "react"
-import classes from "./calculadoras-grid.module.css"
-import Link from "next/link"
-import { usePathname } from 'next/navigation'
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
+import classes from "./calculadoras-grid.module.css";
 
 export default function CalculadorasGrid({ data }) {
-    data = JSON.parse(data)
-    const pathname = usePathname()
-    const [exibicao, setExibicao] = useState(data);
+  data = JSON.parse(data);
+  const pathname = usePathname();
+  const [exibicao, setExibicao] = useState(data);
 
-    function onSearch(e) {
-        const input = e.target.value
-        let searchResult = data.filter((elem) => elem.titulo.toLowerCase().includes(input.toLowerCase())||elem.descricao.toLowerCase().includes(input.toLowerCase()));
-        setExibicao(searchResult)
-    }
+  function onSearch(e) {
+    const input = e.target.value;
+    const searchResult = data.filter(
+      (elem) =>
+        elem.titulo.toLowerCase().includes(input.toLowerCase()) ||
+        elem.descricao.toLowerCase().includes(input.toLowerCase())
+    );
+    setExibicao(searchResult);
+  }
 
-
-
-
-    return (
-        <>
-            <div className="container">
-                <h6 className="display-6 my-2">Calculadoras</h6>
-                <div className="my-2"><input className="form-control" placeholder="Digite nome da formula" onChange={onSearch}></input></div>
-                {/* Favoritos, populares depois, mostrando todas inicialmente */}
-                {/* <div className="my-2 mx-5">
+  return (
+    <>
+      <div className="container">
+        <h6 className="display-6 my-2">Calculadoras</h6>
+        <div className="my-2">
+          <input
+            className="form-control"
+            placeholder="Digite nome da formula"
+            onChange={onSearch}
+          ></input>
+        </div>
+        {/* Favoritos, populares depois, mostrando todas inicialmente */}
+        {/* <div className="my-2 mx-5">
                     <div className="btn mx-2" role="buttom">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-graph-up-arrow" viewBox="0 0 16 16">
@@ -70,38 +77,28 @@ export default function CalculadorasGrid({ data }) {
 
 
                 </div> */}
-                <div>
-                    <ul className={classes.calcList}>
-                        <div className="row">
-                            {(exibicao.length === 0) && <li>Nenhuma calculadora encontrada</li>}
-                            {exibicao.map((elem) => {
-                                return (
-                                    <li key={elem.slug} className="col-md-6"><Link href={pathname + "/" + elem.slug} >
-                                        <div className="card m-2">
-                                            <div className="card-body">
-                                                <h6 className="card-title"> {elem.titulo} </h6>
-                                                <p className="card-text">{elem.descricao}</p>
-
-                                            </div>
-                                        </div>
-                                    </Link></li>
-
-                                )
-                            })}
-
-
+        <div>
+          <ul className={classes.calcList}>
+            <div className="row">
+              {exibicao.length === 0 && <li>Nenhuma calculadora encontrada</li>}
+              {exibicao.map((elem) => {
+                return (
+                  <li key={elem.slug} className="col-md-6">
+                    <Link href={pathname + "/" + elem.slug}>
+                      <div className="card m-2">
+                        <div className="card-body">
+                          <h6 className="card-title"> {elem.titulo} </h6>
+                          <p className="card-text">{elem.descricao}</p>
                         </div>
-
-
-                    </ul>
-                </div>
-
-
-
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
             </div>
-
-
-        </>
-
-    )
+          </ul>
+        </div>
+      </div>
+    </>
+  );
 }

@@ -1,10 +1,10 @@
 // app/admin/dashboard/page.js
-'use client';
+"use client";
 
-import { getCalculadoras } from '@/lib/databases/handler-mongodb';
-import { getLoginStats } from '@/lib/databases/handler-pgdb';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
+import { getCalculadoras } from "@/lib/databases/handler-mongodb";
+import { getLoginStats } from "@/lib/databases/handler-pgdb";
 
 export default function DashboardAdminPage() {
   const [usuarios, setUsuarios] = useState({});
@@ -13,9 +13,8 @@ export default function DashboardAdminPage() {
   const [localizacoes, setLocalizacoes] = useState([]);
 
   useEffect(() => {
-
     async function carregarEstatisticas() {
-      const { total, resumo, localizacoes } = await getLoginStats()
+      const { total, resumo, localizacoes } = await getLoginStats();
       //   const statsUsuarios = await getUsuariosStats();
       const calculadoras = await getCalculadoras();
       //   setUsuarios(statsUsuarios);
@@ -23,13 +22,13 @@ export default function DashboardAdminPage() {
 
       // Simulados - substituir por lógica real quando possível
       setMaisUsadas([
-        { titulo: 'IMC', acessos: 112 },
-        { titulo: 'CKD-EPI', acessos: 87 },
-        { titulo: 'MELD-Na', acessos: 74 },
+        { titulo: "IMC", acessos: 112 },
+        { titulo: "CKD-EPI", acessos: 87 },
+        { titulo: "MELD-Na", acessos: 74 },
       ]);
 
       setLocalizacoes(localizacoes);
-      setUsuarios({ ...total, ...resumo })
+      setUsuarios({ ...total, ...resumo });
     }
     carregarEstatisticas();
   }, []);
@@ -59,7 +58,6 @@ export default function DashboardAdminPage() {
             </div>
           </div>
         </div>
-
 
         <div className="col-md-4">
           <div className="card text-bg-success mb-3">

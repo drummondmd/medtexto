@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 export default function LoginForm({ userNameSlug }) {
-  const router = useRouter()
+  const router = useRouter();
 
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,13 +20,13 @@ export default function LoginForm({ userNameSlug }) {
     const res = await signIn("credentials", {
       redirect: false,
       username: userNameSlug,
-      password
+      password,
     });
 
     setIsLoading(false);
 
     if (res.ok) {
-      router.push(`/${userNameSlug}`)
+      router.push(`/${userNameSlug}`);
     } else {
       setErrorMessage("Credenciais inválidas. Verifique sua senha.");
     }
@@ -34,13 +34,17 @@ export default function LoginForm({ userNameSlug }) {
 
   return (
     <div className="">
-      <form onSubmit={handleSubmit} className="card p-4 shadow-sm text-center"
-        style={{ maxWidth: "300px", margin: "10vh auto" }}>
-        {errorMessage && <p style={{ color: "red", marginBottom: "10px" }} >{errorMessage}</p>}
+      <form
+        onSubmit={handleSubmit}
+        className="card p-4 shadow-sm text-center"
+        style={{ maxWidth: "300px", margin: "10vh auto" }}
+      >
+        {errorMessage && <p style={{ color: "red", marginBottom: "10px" }}>{errorMessage}</p>}
 
         <label className="form-label">
           Usuário
-          <input className="form-control mb-3"
+          <input
+            className="form-control mb-3"
             type="text"
             placeholder="Usuário"
             value={userNameSlug}
@@ -50,7 +54,8 @@ export default function LoginForm({ userNameSlug }) {
 
         <label className="form-label">
           Senha
-          <input className="form-control mb-3"
+          <input
+            className="form-control mb-3"
             type="password"
             placeholder="Senha"
             value={password}
@@ -58,18 +63,23 @@ export default function LoginForm({ userNameSlug }) {
           />
         </label>
 
-        <button type="submit" disabled={isLoading} className="btn btn-primary w-100"
-          style={{ marginTop: "10px" }}>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="btn btn-primary w-100"
+          style={{ marginTop: "10px" }}
+        >
           {isLoading ? "Entrando..." : "Entrar"}
         </button>
         <div className="mt-3">
-          <Link href={`/${userNameSlug}/auth/reset-password`} className="text-muted d-block">Esqueceu a senha?</Link>
-          <Link href="/" className="text-muted">Criar ou acessar conta diferente</Link>
+          <Link href={`/${userNameSlug}/auth/reset-password`} className="text-muted d-block">
+            Esqueceu a senha?
+          </Link>
+          <Link href="/" className="text-muted">
+            Criar ou acessar conta diferente
+          </Link>
         </div>
       </form>
-
     </div>
-
-
   );
 }

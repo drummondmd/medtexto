@@ -1,35 +1,37 @@
 import { getUserMongo } from "@/lib/databases/handler-mongodb";
-import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb"
+import { getUser, getUserProfile } from "@/lib/databases/handler-pgdb";
 
 export default async function UserNamePage({ params }) {
+  ///geral
+  const { userNameSlug } = await params;
 
-    ///geral
-    const { userNameSlug } = await params;
+  const user = await getUser(userNameSlug);
+  if (!user) {
+    notFound();
+  }
 
-    const user = await getUser(userNameSlug);
-    if (!user) {
-        notFound()
-    }
+  const userProfile = await getUserProfile(user.id);
+  const userMongo = await getUserMongo(user.id);
+  if (!userProfile || !userMongo) {
+    notFound();
+  }
 
-    const userProfile = await getUserProfile(user.id)
-    const userMongo = await getUserMongo(user.id);
-    if (!userProfile || !userMongo) {
-        notFound()
-    }
-
-    return (
-        <>
-            <div className='col-lg-10'>
-                <div className="container my-5">
-                    <div>
-                        <h3>Seja bem vindo(a) de volta,  {userProfile ? `${userProfile.nome} ${userProfile.sobrenome}` : ""}</h3>
-                        {/* Posteriormente colocando detalhes do usuario */}
-                        {/* {userDetail.tipo_usuario && <span>{`${userDetail.tipo_usuario} - `} </span>}
+  return (
+    <>
+      <div className="col-lg-10">
+        <div className="container my-5">
+          <div>
+            <h3>
+              Seja bem vindo(a) de volta,{" "}
+              {userProfile ? `${userProfile.nome} ${userProfile.sobrenome}` : ""}
+            </h3>
+            {/* Posteriormente colocando detalhes do usuario */}
+            {/* {userDetail.tipo_usuario && <span>{`${userDetail.tipo_usuario} - `} </span>}
                         {userDetail.especialidade ?? <span>{userDetail.especialidade}</span>} */}
-                    </div>
-                </div>
-                {/* Posteriormente carrosel com informações e publicidade */}
-                {/* <div className="container m-5">
+          </div>
+        </div>
+        {/* Posteriormente carrosel com informações e publicidade */}
+        {/* <div className="container m-5">
                     <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">
                         <div className="carousel-inner">
                             <div className="carousel-item active">
@@ -52,8 +54,7 @@ export default async function UserNamePage({ params }) {
                         </button>
                     </div>
                 </div> */}
-            </div>
-
-        </>
-    )
+      </div>
+    </>
+  );
 }

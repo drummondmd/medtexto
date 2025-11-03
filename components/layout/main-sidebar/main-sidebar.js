@@ -1,7 +1,7 @@
 import classes from "./main-sidebar.module.css";
 import NavLink from "./nav-link";
 
-function ModalMenu({ closeModal }) {
+function ModalMenu({ closeModal, listItem }) {
   return (
     <div className="d-lg-none">
       <div
@@ -39,7 +39,7 @@ export default function SideMenu({ userName, modal, closeModal }) {
 
   return (
     <>
-      {modal && <ModalMenu closeModal={closeModal} />}
+      {modal && <ModalMenu closeModal={closeModal} listItem={listItem} />}
       <div className={`col-lg-2 d-none d-lg-block`}>
         <div className={`${classes.sidebar} p-2 mt-4`}>{listItem}</div>
       </div>

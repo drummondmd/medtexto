@@ -3,10 +3,8 @@
 
 import { useState } from "react";
 
-
-
 export default function EditarCalculadoraPage({ calculadora, todasCalculadoras }) {
-  return <p>Em breve esta funcionalidade</p>
+  return <p>Em breve esta funcionalidade</p>;
   ///parsing JSON devido ao id que quebra o react
   calculadora = JSON.parse(calculadora);
   todasCalculadoras = JSON.parse(todasCalculadoras);

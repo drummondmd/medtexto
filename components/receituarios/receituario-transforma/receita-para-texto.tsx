@@ -6,8 +6,8 @@ import { useState } from "react";
 import recToTexFunction from "@/actions/receituarios/rec-to-text-function";
 
 export default function ReceitaParaTexto() {
-  const [receita, setReceita] = useState<undefined | string>(undefined);
-  const [texto, setTexto] = useState<undefined | string>(undefined);
+  const [receita, setReceita] = useState<string>("");
+  const [texto, setTexto] = useState<string>("");
   const [erro, setErro] = useState<null | string>(null);
   const [copiado, setCopiado] = useState<boolean>(false);
 
@@ -34,12 +34,21 @@ export default function ReceitaParaTexto() {
   return (
     <div className="container">
       <div className="my-2">
-        <span className="border-end pe-2 me-2 font-weight-bold">Receita para texto</span>
         <div className="d-inline">
-          <button onClick={handleTransform} type="button" className="btn btn-secondary mx-1">
+          <button
+            onClick={handleTransform}
+            type="button"
+            className="btn btn-outline-secondary mx-1"
+          >
             Transformar
           </button>
-          <button type="button" className="btn btn-secondary mx-1">
+          <button
+            onClick={() => {
+              (setReceita(""), setTexto(""));
+            }}
+            type="button"
+            className="btn btn-outline-danger mx-1"
+          >
             Apagar
           </button>
           {copiado && (
@@ -50,18 +59,21 @@ export default function ReceitaParaTexto() {
           )}
         </div>
       </div>
-      <div className="my-2">
-        <textarea
-          title="clique para copiar"
-          value={texto}
-          onChange={(e) => setTexto(e.target.value)}
-          onClick={handleCopia}
-          className="form-control"
-          placeholder={"Resultado ficará aqui,clique para copiar. "}
-        />
-      </div>
+      {texto != "" && (
+        <div className="my-3">
+          <textarea
+            title="clique para copiar"
+            value={texto}
+            onChange={(e) => setTexto(e.target.value)}
+            onClick={handleCopia}
+            className="form-control"
+            placeholder={"Resultado ficará aqui,clique para copiar. "}
+          />
+        </div>
+      )}
+
       {erro && <span className="text-danger p-1">{erro}</span>}
-      <div className="my-2">
+      <div className="my-3">
         <textarea
           value={receita}
           onChange={(e) => setReceita(e.target.value)}

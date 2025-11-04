@@ -1,5 +1,7 @@
 "use server";
 
+import receituarioFb from "../admin-actions/rec-fb-action";
+
 const snRegEx = /(sn|sos)/i;
 const tempoDeterminadoRegEx = /(\d+)(-)(\w)/i;
 const dosagemRegEx = /(mg|mcg|ml)/i;
@@ -84,6 +86,7 @@ export default async function textToRecFunction(
         "\n";
     });
 
+    receituarioFb("textToRec", text, string);
     return { success: true, message: "Tudo certo", output: string };
   } else {
     finalArray.forEach((element, index) => {
@@ -103,6 +106,7 @@ export default async function textToRecFunction(
         ".\n" +
         "\n";
     });
+    receituarioFb("textToRec", text, string);
     return { success: true, message: "Tudo certo", output: string };
   }
 }

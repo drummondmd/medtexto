@@ -44,8 +44,11 @@ export default function SaveButton({ user, input, path }) {
   }
 
   return (
-    <div className="d-inline mx-2" onClick={() => onClickHandler(user, input, path)}>
+    <button
+      className=" transition-colors px-2 mx-2 hover:bg-gray-200"
+      onClick={() => onClickHandler(user, input, path)}
+    >
       {icon}
-    </div>
+    </button>
   );
 }

@@ -45,8 +45,11 @@ export default function CopyButton({ item }) {
   }
 
   return (
-    <div className="d-inline mx-2 p-2" onClick={() => onClickHandler(item)}>
+    <button
+      className=" transition-colors px-2 mx-2 hover:bg-gray-200"
+      onClick={() => onClickHandler(item)}
+    >
       {icon}
-    </div>
+    </button>
   );
 }

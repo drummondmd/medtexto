@@ -2,15 +2,7 @@
 
 import { useActionState, useState } from "react";
 
-export default function CreateNota({
-  isCaderno,
-  handlerForm,
-  boolean,
-  close,
-  user,
-  cadernos,
-  recurso,
-}) {
+export default function CreateNota({ isCaderno, handlerForm, close, user, cadernos, recurso }) {
   const [state, formAction, isPending] = useActionState(handlerForm, null);
   const [inputNewCaderno, setInputNewCaderno] = useState(false);
 
@@ -44,88 +36,92 @@ export default function CreateNota({
   }
 
   return (
-    <div className="modalBackdrop" onClick={close}>
-      <dialog className="modal-custom" open={boolean}>
-        <div className="container" onClick={(e) => e.stopPropagation()}>
-          <form action={formAction}>
-            <div className="text-end">
-              {" "}
-              <button type="button" className="btn btn-outline-dark" onClick={close}>
-                Fechar
-              </button>
-            </div>
-            {isCaderno && !emptyArray ? (
-              <div className="row my-2">
-                <div className="col-md-6">
-                  <label className="form-label">Adicionar caderno existente:</label>
-                  <select name="cadernoExistente" className="form-select">
-                    <option readOnly>Selecionar caderno...</option>
-                    {cadernos.map((elem) => {
-                      return (
-                        <option key={elem["_id"]} value={elem["_id"]}>
-                          {elem.titulo}
-                        </option>
-                      );
-                    })}
-                    {/* {Map do array que será posteriormente selecionado} */}
-                  </select>
-                </div>
-                <div className="col-md-6">
-                  <label>Ou adicionar novo caderno:</label>
-                  <div
-                    className="btn col-12 mt-2"
-                    role="buttom"
-                    onClick={() => setInputNewCaderno(true)}
-                  >
-                    Adicionar novo caderno
-                  </div>
-                </div>
+    <div
+      className="fixed inset-0 bg-black/85 flex justify-center items-center z-10"
+      onClick={close}
+    >
+      <div
+        className="bg-[#bcccdc] p-8 rounded shadow-lg shadow-neutral-900  max-w-[50rem] w-full mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <form action={formAction}>
+          <div className="text-end">
+            {" "}
+            <button type="button" className="btn btn-outline-dark" onClick={close}>
+              Fechar
+            </button>
+          </div>
+          {isCaderno && !emptyArray ? (
+            <div className="row my-2">
+              <div className="col-md-6">
+                <label className="form-label">Adicionar caderno existente:</label>
+                <select name="cadernoExistente" className="form-select">
+                  <option readOnly>Selecionar caderno...</option>
+                  {cadernos.map((elem) => {
+                    return (
+                      <option key={elem["_id"]} value={elem["_id"]}>
+                        {elem.titulo}
+                      </option>
+                    );
+                  })}
+                  {/* {Map do array que será posteriormente selecionado} */}
+                </select>
               </div>
-            ) : (
-              emptyArrayContent
-            )}
-
-            {inputNewCaderno && newCadernoInput}
-
-            <input name="userId" value={user.user_id} readOnly hidden></input>
-            <div className="form-group">
-              <label className="form-label">Título</label>
-              <input
-                name="titulo"
-                defaultValue={state ? state.payload.get("titulo") : null}
-                type="text"
-                maxLength={30}
-                className="form-control"
-                required
-              ></input>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Conteudo</label>
-              <textarea
-                name="conteudo"
-                defaultValue={state ? state.payload.get("conteudo") : null}
-                style={{ height: "260px" }}
-                required
-                className="form-control"
-              ></textarea>
-            </div>
-            <div className="my-4">
-              <div className="row">
-                <div className="col-md-4">
-                  <button
-                    type="submit"
-                    className="btn btn-primary col-12"
-                  >{`Criar ${recurso}`}</button>
-                </div>
-                <div className="col-md-8">
-                  {isPending && <p>Enviando ...</p>}
-                  {state ? <p>{state.mensagem}</p> : null}
+              <div className="col-md-6">
+                <label>Ou adicionar novo caderno:</label>
+                <div
+                  className="btn col-12 mt-2"
+                  role="buttom"
+                  onClick={() => setInputNewCaderno(true)}
+                >
+                  Adicionar novo caderno
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-      </dialog>
+          ) : (
+            emptyArrayContent
+          )}
+
+          {inputNewCaderno && newCadernoInput}
+
+          <input name="userId" value={user.user_id} readOnly hidden></input>
+          <div className="form-group">
+            <label className="form-label">Título</label>
+            <input
+              name="titulo"
+              defaultValue={state ? state.payload.get("titulo") : null}
+              type="text"
+              maxLength={30}
+              className="form-control"
+              required
+            ></input>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Conteudo</label>
+            <textarea
+              name="conteudo"
+              defaultValue={state ? state.payload.get("conteudo") : null}
+              style={{ height: "260px" }}
+              required
+              className="form-control"
+            ></textarea>
+          </div>
+          <div className="my-4">
+            <div className="row">
+              <div className="col-md-4">
+                <button
+                  type="submit"
+                  className="btn btn-primary col-12"
+                >{`Criar ${recurso}`}</button>
+              </div>
+              <div className="col-md-8">
+                {isPending && <p>Enviando ...</p>}
+                {state ? <p>{state.mensagem}</p> : null}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

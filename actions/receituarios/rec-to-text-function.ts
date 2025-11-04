@@ -1,5 +1,7 @@
 "use server";
 
+import receituarioFb from "../admin-actions/rec-fb-action";
+
 const quantidadeReference = [
   /(\d+)\s*comprimido(?:s)?\/m[eê]s/i,
   /(\d+)\s*comprimido(?:\(s\)|s) de (\d+) mg/i,
@@ -82,6 +84,8 @@ export default async function recToTexFunction(
   //later
 
   ///se tudo der certo
+  //feedback
+  receituarioFb("recToText", input, outputString);
   return { success: true, message: "Funcionte", output: outputString };
 }
 

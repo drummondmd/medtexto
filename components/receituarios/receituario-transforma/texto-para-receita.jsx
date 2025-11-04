@@ -54,7 +54,7 @@ export default function TextoParaReceita() {
               type="button"
               className="btn btn-danger mx-1"
               onClick={() => {
-                setArray([]);
+                setText("");
                 setRec("");
               }}
             >

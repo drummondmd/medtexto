@@ -67,7 +67,10 @@ export default function OcrControl({
   };
 
   return (
-    <div className={`my-3 p-2 ${classes.control}`} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={`flex gap-2 md:gap-4 py-2 flex-1 border border-gray-200 my-2 ${classes.control}`}
+      onClick={(e) => e.stopPropagation()}
+    >
       <div className="d-inline mx-2 p-2 border-right border-dark">OCR</div>
       <div title="Adicionar foto" className="d-inline mx-2 p-2">
         <input

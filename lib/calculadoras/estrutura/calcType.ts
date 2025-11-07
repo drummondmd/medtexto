@@ -33,5 +33,5 @@ export type CalculadoraEstrutura = {
   referencias: ReferenciaCalc[] | undefined;
   slug: string;
   functionLogic: string;
-  calculadorasRelacionadas: Array<{ id: string } | null>;
+  calculadorasRelacionadas: Array<{ id: string } | []>;
 };

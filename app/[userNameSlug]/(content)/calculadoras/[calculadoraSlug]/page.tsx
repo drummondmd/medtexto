@@ -16,7 +16,7 @@ export default async function CalculadoraDetalhe({ params }) {
 
   if (calcData.calculadorasRelacionadas) {
     const populetedArray: CalculadoraEstrutura[] = [];
-    calcData.calculadorasRelacionadas.forEach((relacionada) => {
+    calcData.calculadorasRelacionadas.forEach((relacionada: { id: string }) => {
       const populetedCalc = estruturaCalculadoras.find((elem) => elem.id === relacionada.id);
       if (populetedCalc) populetedArray.push(populetedCalc);
     });

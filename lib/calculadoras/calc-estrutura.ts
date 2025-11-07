@@ -1,3 +1,4 @@
+import { endocrino } from "./estrutura/endocrino";
 import { gastro } from "./estrutura/gastro";
 import { geral } from "./estrutura/geral";
 import { hemato } from "./estrutura/hemato";
@@ -13,4 +14,5 @@ export const estruturaCalculadoras = [
   ...gastro,
   ...hemato,
   ...neuro,
+  ...endocrino,
 ];

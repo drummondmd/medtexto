@@ -1,8 +1,8 @@
+import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import classes from "./main-header.module.css";
-import { LogOut } from "lucide-react";
 
 export default function MainHeader({ nome, openModal, session }) {
   return (
@@ -34,7 +34,12 @@ export default function MainHeader({ nome, openModal, session }) {
             <div className="d-none d-lg-block">
               <span className="navbar-text"> {nome}</span>
               {session && (
-                <Link title={"Sair"} href="/api/auth/signout" role="buttom" className="btn mx-4 navbar-text focus:border-blue-400">
+                <Link
+                  title={"Sair"}
+                  href="/api/auth/signout"
+                  role="buttom"
+                  className="btn mx-4 navbar-text focus:border-blue-400"
+                >
                   <LogOut />
                 </Link>
               )}

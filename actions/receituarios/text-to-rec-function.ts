@@ -5,7 +5,7 @@ import receituarioFb from "../admin-actions/rec-fb-action";
 const snRegEx = /(sn|sos)/i;
 const tempoDeterminadoRegEx = /(\d+)(-)(\w)/i;
 const dosagemRegEx = /(mg|mcg|ml)/i;
-const posologiaRegEx = /(MID|BID|TID|QID|q_(\d+))/i;
+const posologiaRegEx = /\b(MID|BID|TID|QID|q_\d+)\b/i;
 const modPosologiaRegEx = /(cp|(\d+)ml)/i;
 
 export default async function textToRecFunction(

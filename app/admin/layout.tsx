@@ -1,12 +1,21 @@
 // app/admin/layout.js
 import "bootstrap/dist/css/bootstrap.min.css";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+
+import { options } from "@/lib/auth/options";
 
 export const metadata = {
   title: "Admin | MedTexto",
 };
 
-export default function AdminLayout({ children }) {
+export default async function AdminLayout({ children }) {
+  const session = await getServerSession(options);
+
+  if (!session || session?.user?.email !== "marcelod.drummond@gmail.com") {
+    return <p>Não autenticado</p>;
+  }
+
   return (
     <div className="d-flex vh-100">
       {/* Sidebar */}
@@ -31,6 +40,11 @@ export default function AdminLayout({ children }) {
           <li className="nav-item">
             <Link className="nav-link text-white" href="/admin/contatos">
               Contatos
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" href="/admin/rec-feedback">
+              Receituario Feedback
             </Link>
           </li>
         </ul>

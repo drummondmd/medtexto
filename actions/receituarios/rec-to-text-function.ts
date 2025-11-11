@@ -6,29 +6,31 @@ const quantidadeReference = [
   /(\d+)\s*comprimido(?:s)?\/m[eê]s/i,
   /(\d+)\s*comprimido(?:\(s\)|s) de (\d+) mg/i,
   /(\d+)\s*comprimido(?:\(s\)|s)/i,
-  /(\d+)\s*Unidade(?:\(s\)|s)/gi,
+  /(\d+)\s*Unidade(?:\(s\)|s)/i,
+  /(?:uso\s+)?cont(?:i|í|ì)nuo/i,
 ];
 
 const posologiaReference = {
-  MID: [
-    /1 vez ao dia/i,
-    "Tomar 1 comprimido ao dia",
-    /(\d+)\s*Comprimido\(s\)\s*de\s*(\d+)\s*mg,\s*Uso Oral,\s*(1 vez à noite|1 vez pela manh(ã|a|á|ä)|1 vez ao dia)\s*, durante\s*(\d+)\s*dias/i,
-    /tomar\s*1\s*(comprimido|cp)\s*(ao\s*dia|1x\/dia)/i,
-    "1 vez pela manhã",
-    "1 vez à noite",
-    "TOMAR 1 COMPRIMIDO, PELA MANHÃ",
-  ],
-  BID: [
-    /(12 em 12 horas)/i,
-    "Tomar 1 comprimido de 12/12 horas",
-    /tomar\s*1\s*(comprimido|cp|cápsula )\s*(de\s*)?(12\/12|2x\/dia|duas\s*vezes\s*ao\s*dia)/i,
-  ],
+  QID: ["Tomar 1 comprimido de 6/6 horas"],
   TID: [
     "Tomar 1 comprimido de 8/8 horas",
     /tomar\s*1\s*(comprimido|cp)\s*(de\s*)?(8\/8|3x\/dia|tr[eê]s\s*vezes\s*ao\s*dia)/i,
   ],
-  QID: ["Tomar 1 comprimido de 6/6 horas"],
+  BID: [
+    /(12 em 12 horas)|(12\/12)/i,
+    "Tomar 1 comprimido de 12/12 horas",
+    /tomar\s*1\s*(comprimido|cp|cápsula )\s*(de\s*)?(12\/12|2x\/dia|duas\s*vezes\s*ao\s*dia)/i,
+    "TOMAR 01 COMPRIMIDO NO ALMOÇO E 01 COMPRIMIDO NO JANTAR",
+  ],
+  MID: [
+    /1 vez ao dia/i,
+    /(\d+)\s*Comprimido\(s\)\s*de\s*(\d+)\s*mg,\s*Uso Oral,\s*(1 vez à noite|1 vez pela manh(ã|a|á|ä)|1 vez ao dia)\s*, durante\s*(\d+)\s*dias/i,
+    /tomar\s*(\d+)\s*(comprimido|cp)\s*(ao\s*dia|1x\/dia)/i,
+    /tomar\s*(\d+)\s*(comprimido|cp)\s*\s*(pela\s*manhã|em\s*jejum)/iu,
+    /tomar\s*(\d+)\s*(comprimido|cp)\s*\s*(ap(o|ó)s|no)\s*almoço/iu,
+    "1 vez pela manhã",
+    "1 vez à noite",
+  ],
 };
 
 const sobDemandaReference = ["em caso de necessidade"];
@@ -151,7 +153,7 @@ function medReplace(string: string): string {
   let outputString = string
     .replace(/(\W)\1+/, "")
     .replace(/(uso oral)\s*(\W)/i, "")
-    .replace(/(\d+)\s*(\))/i, "")
+    .replace(/(\d+)\s*(\)|.|-)/i, "")
     .replace(/besilato/i, "")
     .replace(/equivale a/i, "")
     .trim();
@@ -167,14 +169,14 @@ function medReplace(string: string): string {
   }
 
   const secondClean = outputString
-    .replace(/comprimido/gi, "")
-    .replace(/unidade/gi, "")
-    .replace(/(\W)/gi, " ");
+    .replace(/comprimido/i, "")
+    .replace(/unidade/i, "")
+    .replace(/(?<!\w)\W(?!\w)/i, "");
 
   let finalString: string = "";
 
   const splitedString = secondClean.split(" ").filter((elem) => {
-    const regEx = new RegExp(/\W+/, "i");
+    const regEx = /(?<!\w)\W(?!\w)/i;
     if (elem === "" || regEx.test(elem)) {
       return false;
     } else {
@@ -190,35 +192,24 @@ function medReplace(string: string): string {
 }
 
 function posReplace(string: string): string {
-  let isSobDemanda = false;
-  let modifiedString = "";
-
-  for (const frase of sobDemandaReference) {
+  const isSobDemanda = sobDemandaReference.some((frase) => {
     const regEx = new RegExp(frase, "gi");
-    if (regEx.test(string)) {
-      isSobDemanda = true;
-      break;
-    }
-  }
+    return regEx.test(string);
+  });
 
-  for (const [codigo, frases] of Object.entries(posologiaReference)) {
-    for (const frase of frases) {
-      const regEx = typeof frase === "string" ? new RegExp(frase, "gi") : frase;
-      if (regEx.test(string)) {
-        modifiedString = codigo;
-        break;
-      }
-    }
-  }
+  const foundPosologia = Object.entries(posologiaReference).find(([_codigo, frases]) =>
+    frases.some((frase) => {
+      const regEx = typeof frase === "string" ? new RegExp(frase, "i") : frase;
+      return regEx.test(string);
+    })
+  );
+  let codigo = foundPosologia[0] != undefined ? foundPosologia[0] : "q_";
 
-  if (modifiedString.length === 0) {
-    modifiedString = "q_";
-  }
   if (isSobDemanda) {
-    modifiedString = modifiedString + " " + "SN";
+    codigo = codigo + " " + "SN";
   }
 
-  return modifiedString;
+  return codigo;
 }
 
 function dirtyTransform(

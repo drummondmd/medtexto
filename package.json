@@ -1,6 +1,6 @@
 {
   "name": "medtext-next-js-app",
-  "version": "0.4.01",
+  "version": "0.4.02",
   "private": true,
   "scripts": {
     "dev": "next dev",

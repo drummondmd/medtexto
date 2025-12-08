@@ -1,5 +1,7 @@
-import CriarUsuario from "@/components/pagina-inicial/criar-usuario";
+import HomePageContainer from "@/components/features/home-page/homepageContainer";
 
 export default function Home() {
-  return <CriarUsuario />;
+  return <HomePageContainer />;
+
+  //return <CriarUsuario />;
 }

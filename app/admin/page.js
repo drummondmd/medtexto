@@ -3,22 +3,16 @@
 
 import { useEffect, useState } from "react";
 
-import { getCalculadoras } from "@/lib/databases/handler-mongodb";
 import { getLoginStats } from "@/lib/databases/handler-pgdb";
 
 export default function DashboardAdminPage() {
   const [usuarios, setUsuarios] = useState({});
-  const [calculadoras, setCalculadoras] = useState({ total: 0 });
-  const [maisUsadas, setMaisUsadas] = useState([]);
   const [localizacoes, setLocalizacoes] = useState([]);
 
   useEffect(() => {
     async function carregarEstatisticas() {
       const { total, resumo, localizacoes } = await getLoginStats();
       //   const statsUsuarios = await getUsuariosStats();
-      const calculadoras = await getCalculadoras();
-      //   setUsuarios(statsUsuarios);
-      setCalculadoras({ total: calculadoras.length });
 
       // Simulados - substituir por lógica real quando possível
       setMaisUsadas([

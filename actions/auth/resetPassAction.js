@@ -30,7 +30,11 @@ export async function resetPassAction(prev, formData) {
 
   ///mandar token por email
 
-  const url = "https://medtexto.vercel.app";
+  let url = "https://medtexto.app";
+
+  if (process.env.NODE_ENV === "production") {
+    url = "localhost:3000";
+  }
 
   const resetLink = `${url}/${username}/auth/reset-password/new-password?token=${token}`;
 
@@ -89,21 +93,19 @@ export async function resetPassAction(prev, formData) {
     );
 
     if (result.rowCount > 0) {
-      ///se criar token corretamente apagar senha atual
-      pool.query("UPDATE users SET senha_hash =$1", [null]);
+      return {
+        status: "Link enviado, verifique caixa de entrada",
+        payload: formData,
+      };
+    } else {
+      return {
+        status: "Algum erro aconteceu",
+        payload: formData,
+      };
     }
-  } catch (error) {
-    console.error(error, "erro ao atulizar database");
-    return {
-      payload: formData,
-      erro: "Erro ao atualizar senha",
-    };
+  } catch (err) {
+    console.error(err);
   }
-
-  return {
-    status: "Link enviado, verifique caixa de entrada",
-    payload: formData,
-  };
 }
 
 export async function newPasswordAction(prev, formData) {

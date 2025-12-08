@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import classes from "./calculadoras-grid.module.css";
+import TitleHeader from "../ui/titleHeader";
 
 export default function CalculadorasGrid({ data }) {
   data = JSON.parse(data);
@@ -23,8 +24,8 @@ export default function CalculadorasGrid({ data }) {
   return (
     <>
       <div className="container">
-        <h6 className="display-6 my-2">Calculadoras</h6>
-        <div className="my-2">
+        <TitleHeader title={"Calculadoras"} />
+        <div className="mb-4">
           <input
             className="form-control"
             placeholder="Digite nome da formula"

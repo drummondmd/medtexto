@@ -1,4 +1,19 @@
-import { getUser } from "@/lib/databases/handler-pgdb";
+//import { pool } from "./db-config.js";
+import { pool } from "../../../lib/databases/db-config.js";
+
+const checkUser = async (userName) => {
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE username = $1", [userName]);
+    if (result.rowCount === 0) {
+      return null;
+    } else {
+      return result.rows[0];
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro na obtenção dos usuarios da database");
+  }
+};
 
 export async function GET(request) {
   const query = request.nextUrl.searchParams.get("query");
@@ -15,7 +30,7 @@ export async function GET(request) {
   }
 
   ///checar se já existente, se existir responder que já existe e não autorizar cadastro;
-  const alreadyHaveUser = await getUser(query);
+  const alreadyHaveUser = await checkUser(query);
 
   if (!alreadyHaveUser) {
     return Response.json({ response: true });

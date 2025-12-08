@@ -1,86 +1,78 @@
 "use client";
 
-import { ClipboardCheck } from "lucide-react";
 import { useState } from "react";
 
 import recToTexFunction from "@/actions/receituarios/rec-to-text-function";
+import ActionWStatus from "@/components/shared/action-w-status/action-w-status";
+import TextAreaWControlContainer from "@/components/shared/text-area-wControl/text-area-container";
 
 export default function ReceitaParaTexto() {
+  const defaultStatus = {
+    statusCode: "info",
+    statusMessage: "Digite ou cole receita abaixo",
+  } as const;
+
+  type StatusCode = "info" | "success" | "error";
+
   const [receita, setReceita] = useState<string>("");
-  const [texto, setTexto] = useState<string>("");
-  const [erro, setErro] = useState<null | string>(null);
-  const [copiado, setCopiado] = useState<boolean>(false);
+  const [texto, setTexto] = useState<string>("Resultado aparecerá aqui...");
+  const [status, setStatus] = useState<{ statusCode: StatusCode; statusMessage: string }>(
+    defaultStatus
+  );
 
   async function handleTransform() {
-    setErro(null);
+    setStatus({ statusCode: "info", statusMessage: "Transformando.." });
     const response = await recToTexFunction(receita);
     if (response.success) {
       setTexto(response.output);
+      setStatus({ statusCode: "success", statusMessage: "Transformado.." });
+      setTimeout(() => setStatus(defaultStatus), 2000);
     } else {
-      setErro(response.message);
+      setStatus({ statusCode: "error", statusMessage: response.message });
+      setTimeout(() => setStatus(defaultStatus), 2000);
     }
   }
-
-  const handleCopia = async () => {
-    try {
-      await navigator.clipboard.writeText(texto);
-      setCopiado(true);
-      setTimeout(() => setCopiado(false), 2000);
-    } catch (err) {
-      console.error("Erro ao copiar:", err);
-    }
-  };
-
   return (
     <div className="container">
-      <div className="my-2">
-        <div className="d-inline">
-          <button
+      <div className="w-full flex flex-col md:flex-row gap-2">
+        <div className="w-full md:w-1/2 m-2">
+          <ActionWStatus
+            btnTitle="Transformar"
+            disableBtn={receita.length === 0}
             onClick={handleTransform}
-            type="button"
-            className="btn btn-outline-secondary mx-1"
-          >
-            Transformar
-          </button>
-          <button
-            onClick={() => {
-              (setReceita(""), setTexto(""));
-            }}
-            type="button"
-            className="btn btn-outline-danger mx-1"
-          >
-            Apagar
-          </button>
-          {copiado && (
-            <span className="text-green-400">
-              Copiado!
-              <ClipboardCheck size={"18px"} color="oklch(72.3% 0.219 149.579)" />
-            </span>
-          )}
+            status={status}
+            variant="yellow"
+          />
+          <div>
+            <textarea
+              value={receita}
+              onChange={(e) => setReceita(e.target.value)}
+              placeholder={`Copie receita aqui. \nex:1)Losartana 50mg ----------------- 30 comprimidos/mês.\nTomar 1 comprimido ao dia.`}
+              style={{ height: "260px" }}
+              className="form-control"
+            />
+          </div>
         </div>
-      </div>
-      {texto != "" && (
-        <div className="my-3">
-          <textarea
+        <div className="w-full md:w-1/2 m-2">
+          <TextAreaWControlContainer
+            canMutateData={false}
+            canOCR={false}
+            initialState={texto}
+            resource="transform"
+            variant="small"
+            apiUpdateFunction={null}
+            userId={null}
+            key={texto}
+          />
+          {/* <textarea
             title="clique para copiar"
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
             onClick={handleCopia}
             className="form-control"
             placeholder={"Resultado ficará aqui,clique para copiar. "}
-          />
+          /> */}
         </div>
-      )}
-
-      {erro && <span className="text-danger p-1">{erro}</span>}
-      <div className="my-3">
-        <textarea
-          value={receita}
-          onChange={(e) => setReceita(e.target.value)}
-          placeholder={`Copie receita aqui. \nex:1)Losartana 50mg ----------------- 30 comprimidos/mês.\nTomar 1 comprimido ao dia.`}
-          style={{ height: "260px" }}
-          className="form-control"
-        />
       </div>
     </div>
   );

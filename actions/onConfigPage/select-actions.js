@@ -20,6 +20,7 @@ export async function changeProtectStatus(user, userNameSlug, status, isSenhaDef
   }
 
   if (userAwser === true && isSenhaDefinida === false) {
+    revalidatePath(`/${userNameSlug}/`);
     redirect(`/${userNameSlug}/auth/reset-password`);
   } else if (userAwser === true) {
     revalidatePath(`/${userNameSlug}/`);

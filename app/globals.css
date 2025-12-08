@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* modal for all site */
-
-body {
-  background-color: #f5f5f7 !important;
-}
-
-
 .modalBackdrop {
   position: fixed;
   top: 0;

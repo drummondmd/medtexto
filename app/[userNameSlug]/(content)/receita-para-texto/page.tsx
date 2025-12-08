@@ -1,12 +1,12 @@
 import ReceitaParaTexto from "@/components/receituarios/receituario-transforma/receita-para-texto";
+import TitleHeader from "@/components/ui/titleHeader";
 
 export default function Page() {
   return (
-    <div className="container mx-auto px-4">
-      <h6 className="display-6 my-2">Receita para Texto</h6>
-      <div>
-        <ReceitaParaTexto />
-      </div>
+    <div className="flex flex-wrap">
+      <TitleHeader title={"Receita para Texto"} />
+
+      <ReceitaParaTexto />
     </div>
   );
 }

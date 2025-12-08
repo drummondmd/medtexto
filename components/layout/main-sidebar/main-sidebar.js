@@ -3,15 +3,21 @@ import NavLink from "./nav-link";
 
 function ModalMenu({ closeModal, listItem }) {
   return (
-    <div className="d-lg-none">
+    <div className="lg:hidden">
+      {/* Overlay */}
       <div
-        className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
+        className="fixed inset-0 min-h-screen bg-black/50"
         style={{ zIndex: 1050 }}
         onClick={closeModal}
       >
+        {/* Sidebar */}
         <div
-          className={`${classes.sidebar} d-lg-none rounded bg-light p-2 mt-4`}
-          style={{ width: "250px", height: "100%", overflowY: "auto" }}
+          className="bg-white rounded p-2 mt-4"
+          style={{
+            width: "250px",
+            height: "80%",
+            overflowY: "auto",
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           {listItem}
@@ -32,6 +38,7 @@ export default function SideMenu({ userName, modal, closeModal }) {
       <NavLink href={`/${userName}/desmame-corticoide`} name={"Desmame de Corticoide"} />
       <NavLink href={`/${userName}/evolucoes`} name={"Evoluções"} />
       <NavLink href={`/${userName}/resumos`} name={"Resumos"} />
+      <NavLink href={`/${userName}/remune`} name={"Remune"} />
       <NavLink href={`/${userName}/perfil-e-configuracoes`} name={"Definições/Preferências"} />
 
       {/* <li className="nav-item p-2"><Link  href={`/${userName}/resumos`}>Calculador de infusões</Link></li> */}
@@ -42,9 +49,7 @@ export default function SideMenu({ userName, modal, closeModal }) {
   return (
     <>
       {modal && <ModalMenu closeModal={closeModal} listItem={listItem} />}
-      <div className={`col-lg-2 d-none d-lg-block`}>
-        <div className={`${classes.sidebar} p-2 mt-4`}>{listItem}</div>
-      </div>
+      {!modal && <div className={`${classes.sidebar} p-2 mt-4`}>{listItem}</div>}
     </>
   );
 }

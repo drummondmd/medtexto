@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 
 import { CalculadoraEstrutura } from "@/lib/calculadoras/estrutura/calcType";
@@ -16,7 +15,7 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
 
   const parsedCalc = calc;
   ///parametros
-  const parametros: { [key: string]: string | number } = {};
+  const initialDataForm: { [key: string]: string | number } = {};
   const entradas = parsedCalc.entradas;
   entradas.map((entrada) => {
     if (entrada.inputType === "select") {
@@ -27,14 +26,14 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
         })
         .filter((elem) => elem != null);
       const value = defaultChecked[0];
-      parametros[entrada.nome] = value || "";
+      initialDataForm[entrada.nome] = value || "";
     } else {
-      parametros[entrada.nome] = "";
+      initialDataForm[entrada.nome] = "";
     }
   });
   ///states
   const [displayCalc, setDisplayCalc] = useState(parsedCalc);
-  const [formData, setFormData] = useState(parametros);
+  const [formData, setFormData] = useState(initialDataForm);
   const [resultado, setResultado] = useState([]);
   ///abrir aba de outras informações
   const [anotherInfo, setAnother] = useState(false);
@@ -63,6 +62,12 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
     modifyPar();
   };
 
+  const onDelete = () => {
+    setDisplayCalc(parsedCalc);
+    setResultado([]);
+    setFormData(initialDataForm);
+  };
+
   ///function para gerar jsx com base no array
   function jsxForm(array: CalculadoraFE) {
     return array["entradas"].map((entrada) => (
@@ -86,7 +91,7 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
                       key={entrada.nome}
                       type={entrada.tipo}
                       name={entrada.nome}
-                      value={formData.nome}
+                      value={formData[entrada.nome] || ""}
                       onChange={handleChange}
                       className="form-control"
                       placeholder={entrada.placeholder}
@@ -106,7 +111,7 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
                         id={entrada.nome + input.nome}
                         type={input.tipo}
                         value={input.value ?? input.nome}
-                        defaultChecked={input.isDefault}
+                        checked={formData[entrada.nome] == (input.value.toString() || input.nome)}
                         onChange={handleChange}
                       />
                       <label
@@ -144,6 +149,8 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
         });
         const data = await response.json();
         setIsLoading(false);
+
+        if (!data) return; /// se retornar nulo, nada a se fazer
         if (data.erro || data.error) {
           setResultado((prevResultado) => [...prevResultado, data.erro || data.error]);
         } else {
@@ -251,17 +258,18 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
                     <p key={elem}>{elem}</p>
                   ))}
                 </div>
-                <div className="row">
-                  <div role="button" className="btn col-md-6 " onClick={copyText}>
+                <div className="flex flex-row">
+                  <div
+                    role="button"
+                    className="w-full md:w-1/2 border m-2 p-2 hover:bg-white hover:font-medium rounded text-center "
+                    onClick={copyText}
+                  >
                     Copiar
                   </div>
                   <div
                     role="button"
-                    className=" btn col-md-6 "
-                    onClick={() => {
-                      setResultado([]);
-                      modifyPar();
-                    }}
+                    className=" w-full md:w-1/2 border m-2 p-2 hover:bg-white hover:font-medium rounded text-center "
+                    onClick={onDelete}
                   >
                     Apagar
                   </div>
@@ -285,7 +293,8 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
                     return (
                       <li key={referencia.titulo} className="list-group-item">
                         <div className="card">
-                          <Link
+                          <a
+                            target="_blank"
                             key={referencia.titulo}
                             href={referencia.link}
                             className="link-dark link-underline-opacity-0 link-underline-opacity-75-hover"
@@ -294,7 +303,7 @@ export default function ConstrutorDeCalculadora({ calc }: { calc: any }) {
                               <div className="card-title">{referencia.titulo}</div>
                               {/* <div className="card-text">{referencia.descricao}</div> */}
                             </div>
-                          </Link>
+                          </a>
                         </div>
                       </li>
                     );

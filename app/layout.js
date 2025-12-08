@@ -2,7 +2,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import "./globals.css";
-import "tailwindcss";
 
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -14,14 +13,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <>
-      <html lang="pt-br">
-        <body>
-          {children}
-          <Analytics />
-          <SpeedInsights />
-        </body>
-      </html>
-    </>
+    <html lang="pt-br" data-scroll-behavior="smooth">
+      <body className="">
+        {children}
+
+        <Analytics />
+        <SpeedInsights />
+      </body>
+    </html>
   );
 }

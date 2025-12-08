@@ -3,21 +3,28 @@
 import { useState } from "react";
 
 import textToRecFunction from "@/actions/receituarios/text-to-rec-function";
+import ActionWStatus from "@/components/shared/action-w-status/action-w-status";
+import TextAreaWControlContainer from "@/components/shared/text-area-wControl/text-area-container";
 
 export default function TextoParaReceita() {
   ///mandar e pegar da db depois, talvez nem utilizar
 
   const [text, setText] = useState("");
-  const [rec, setRec] = useState("");
-  const [error, setError] = useState(null);
+  const [rec, setRec] = useState("Resultado aparecerá aqui...");
+  const [stauts, setStatus] = useState({
+    statusCode: "info",
+    statusMessage: "Digite medicações no formato acima...",
+  });
 
   async function handleTextToRec() {
-    setError(null);
+    setStatus({ statusCode: "info", statusMessage: "Transformando..." });
     setRec("...Carregando");
     const response = await textToRecFunction(text, rec);
     if (!response.success) {
-      setError(response.message);
+      setStatus({ statusCode: "error", statusMessage: response.message });
+      setRec("");
     } else {
+      setStatus({ statusCode: "success", statusMessage: response.message ?? "Transformado!" });
       setRec(response.output);
     }
   }
@@ -29,12 +36,20 @@ export default function TextoParaReceita() {
         <div className="my-2">
           <textarea
             className="form-control"
-            placeholder="ex:Losartana 50mg MID ; Amoxicilina 500mg MID 7d "
+            placeholder="ex:Losartana 50mg MID ; Amoxicilina 500mg TID 7-d; Dipirona 500mg 2cp ( - se estiver em branco = 1 cp) QID SN; Morfina 10mg q_4(a cada 4 horas) "
             value={text}
             onChange={(e) => setText(e.target.value)}
           ></textarea>
         </div>
-        {error ?? <div>{error}</div>}
+        <ActionWStatus
+          onClick={handleTextToRec}
+          status={stauts}
+          btnTitle="Transformar"
+          variant="yellow"
+          disableBtn={text.length === 0}
+        />
+
+        {/* {error ?? <div>{error}</div>}
         <div className="my-2">
           <span className="border-end pe-2 me-2">Texto para receita</span>
           <div className="d-inline">
@@ -61,17 +76,18 @@ export default function TextoParaReceita() {
               Apagar
             </button>
           </div>
-        </div>
+        </div> */}
 
         <div className="my-2">
-          <textarea
-            placeholder={`ex:1)Losartana 50mg ----------------- 30 comprimidos/mês.\nTomar 1 comprimido ao dia.
-`}
-            value={rec}
-            onChange={(e) => setRec(e.target.value)}
-            style={{ height: "340px" }}
-            className="form-control"
-          ></textarea>{" "}
+          <TextAreaWControlContainer
+            key={rec}
+            canMutateData={false}
+            canOCR={false}
+            initialState={rec}
+            apiUpdateFunction={undefined}
+            userId={undefined}
+            variant="small"
+          />
         </div>
       </div>
     </>

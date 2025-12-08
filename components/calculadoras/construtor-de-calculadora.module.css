@@ -4,7 +4,7 @@
 
 .resultadoAnother {
     /* background-color: #EFB036; */
-    background-color: #bcccdc;
+    background-color: #949492;
     border-radius: 3%;
 }
 
@@ -14,7 +14,6 @@
     border-radius: 3%;
 }
 
-.calcActive{
+.calcActive {
     background-color: #bcccdc !important
-
 }

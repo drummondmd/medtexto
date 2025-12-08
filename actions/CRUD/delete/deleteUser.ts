@@ -1,5 +1,6 @@
 import { pool } from "@/lib/databases/db-config";
 import { UsuarioMongo } from "@/lib/databases/mongo-models";
+import { connectToDatabase } from "@/lib/databases/mongoose-config";
 
 export default async function deleteUserPgMongo(
   user_id: string
@@ -9,6 +10,7 @@ export default async function deleteUserPgMongo(
       rowCount: number;
     };
     if (pgDelete.rowCount > 0) {
+      await connectToDatabase()
       const mongoDelete = await UsuarioMongo.deleteOne({ user_id: [user_id] });
       if (mongoDelete.acknowledged) {
         return { success: true };

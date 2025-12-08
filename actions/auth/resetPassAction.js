@@ -30,11 +30,7 @@ export async function resetPassAction(prev, formData) {
 
   ///mandar token por email
 
-  let url = "https://medtexto.app";
-
-  if (process.env.NODE_ENV === "production") {
-    url = "localhost:3000";
-  }
+  const url = "https://medtexto.app";
 
   const resetLink = `${url}/${username}/auth/reset-password/new-password?token=${token}`;
 

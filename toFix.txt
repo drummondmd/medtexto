@@ -1,27 +1,3 @@
-ok - homepage desconfigurando em md e sm
-ok- Bloco de notas pequeno em tablet - ajustar de lg para md
-ok - Menu no header tem que ser branco e não preto
-ok- Footer pequeno e desconfigurando em todas as telas
-ok- Colocar border e hover no modal - fechar para melhor acessibilidade
-ok-Desmame de corticoide quebrando em telas pequenas, funcionando nas demais
-ok- Após usuario colocar username, bg esta desalinhado
-ok- Erro no login de novos usuarios
-ok- Trocar o link de resetar senha
-ok- Desmame de Corticoide não funcioando.
-ok- Link das calculadoras deve abrir em link externo
-ok - Em resumos não está funcionando criar novo caderno
-ok - Remune quebrando, ao apagar não está resetando todas opção como deveria
-ok- Senha não está salvando no inicio
---
-ok- TextAreaWContainer não esta assumindo tamanho máximo de inicio
-ok- PlaceHolder do TexttoRec
-ok - Statuscom Action btn deformado em small
-ok - Remune ainda sem funcionamento adequado
----
-ok- mudança de homepage não funcionando( não revalida cache)
-homepage ainda quebrando bg em lg, sm funcioando
-ok - homepage para entrar, adicionar lowertest e trim
-ok - senha não funcionando no sm(falta do https?)
-ok - Retirar exigencia de senha não funcionando( não revalida cahce)
-ok - info não funcinando no small
-
+MongoDB não esta sendo excluido junto com conta
+usuario está sendo criado mesmo sem mongoDB
+link de resetar senha indo errado

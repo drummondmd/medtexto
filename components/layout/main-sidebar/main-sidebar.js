@@ -6,7 +6,7 @@ function ModalMenu({ closeModal, listItem }) {
     <div className="lg:hidden">
       {/* Overlay */}
       <div
-        className="fixed inset-0 min-h-screen bg-black/50"
+        className="fixed top-0 right-0 bottom-0 left-0 min-h-screen bg-black/50"
         style={{ zIndex: 1050 }}
         onClick={closeModal}
       >

@@ -1,31 +1,18 @@
 // app/admin/dashboard/page.js
-"use client";
 
-import { useEffect, useState } from "react";
-
+import { estruturaCalculadoras } from "@/lib/calculadoras/calc-estrutura";
 import { getLoginStats } from "@/lib/databases/handler-pgdb";
 
-export default function DashboardAdminPage() {
-  const [usuarios, setUsuarios] = useState({});
-  const [localizacoes, setLocalizacoes] = useState([]);
+type LoginStatsResult = {
+  total: { count: string };
+  resumo: { acessos_ano: string; acessos_dia: string; acessos_mes: string };
+  localizacoes: any[];
+};
 
-  useEffect(() => {
-    async function carregarEstatisticas() {
-      const { total, resumo, localizacoes } = await getLoginStats();
-      //   const statsUsuarios = await getUsuariosStats();
+export default async function DashboardAdminPage() {
+  const calculadoras = estruturaCalculadoras;
 
-      // Simulados - substituir por lógica real quando possível
-      setMaisUsadas([
-        { titulo: "IMC", acessos: 112 },
-        { titulo: "CKD-EPI", acessos: 87 },
-        { titulo: "MELD-Na", acessos: 74 },
-      ]);
-
-      setLocalizacoes(localizacoes);
-      setUsuarios({ ...total, ...resumo });
-    }
-    carregarEstatisticas();
-  }, []);
+  const { total, resumo } = (await getLoginStats()) as LoginStatsResult;
 
   return (
     <div>
@@ -36,7 +23,7 @@ export default function DashboardAdminPage() {
           <div className="card text-bg-primary mb-3">
             <div className="card-header"> Total de Usuários</div>
             <div className="card-body">
-              <h5 className="card-title">{usuarios.count}</h5>
+              <h5 className="card-title">{total?.count}</h5>
             </div>
           </div>
         </div>
@@ -45,9 +32,9 @@ export default function DashboardAdminPage() {
             <div className="card-header"> Acessos</div>
             <div className="card-body">
               <p className="card-text">
-                Hoje: {usuarios.acessos_dia || 0} <br />
-                Semana: {usuarios.acessos_mes || 0} <br />
-                Mês: {usuarios.acessos_ano || 0}
+                Hoje: {resumo?.acessos_dia || 0} <br />
+                Semana: {resumo?.acessos_mes || 0} <br />
+                Mês: {resumo?.acessos_ano || 0}
               </p>
             </div>
           </div>
@@ -57,14 +44,14 @@ export default function DashboardAdminPage() {
           <div className="card text-bg-success mb-3">
             <div className="card-header">Calculadoras</div>
             <div className="card-body">
-              <h5 className="card-title">{calculadoras.total}</h5>
+              <h5 className="card-title">{calculadoras.length}</h5>
               <p className="card-text">Total cadastradas</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="row mb-4">
+      {/* <div className="row mb-4">
         <div className="col-md-6">
           <div className="card">
             <div className="card-header">Mais utilizadas</div>
@@ -90,7 +77,7 @@ export default function DashboardAdminPage() {
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -8,7 +8,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "MedTexto",
-  description: "Facilitando o dia a dia do Médico e do estudante de Medicina.",
+  description:
+    "Facilitando o dia a dia do Médico e do estudante de Medicina. Presença de calculadoras médicas, bloco de resumos, bloco de notas temporario e a nossa função de criar e transformar receita em texto e vice-versa",
 };
 
 export default function RootLayout({ children }) {

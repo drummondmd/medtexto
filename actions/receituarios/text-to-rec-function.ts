@@ -1,5 +1,20 @@
 "use server";
 
+type ReturninObj = {
+  med: string;
+  dosagem: string;
+  posologia: string;
+  modPos: string;
+  tempo: string;
+  isSN: boolean;
+  isTempo: boolean;
+  splited: string[];
+  posologiaText: string;
+  quantidade: string;
+  quantidadeNumber: number;
+  hyphen: string;
+};
+
 import receituarioFb from "../admin-actions/rec-fb-action";
 
 const snRegEx = /(sn|sos)/i;
@@ -10,8 +25,9 @@ const modPosologiaRegEx = /(cp|(\d+)ml)/i;
 
 export default async function textToRecFunction(
   text: string,
-  receita?: string
-): Promise<{ success: boolean; output?: string; message?: string }> {
+  receita?: string,
+  returnArray?: boolean
+): Promise<{ success: boolean; output?: string; message?: string; arrayOfObj?: ReturninObj[] }> {
   if (!text) return { success: false, message: "Insira valor válido" };
 
   const array = text
@@ -32,7 +48,7 @@ export default async function textToRecFunction(
       ///se não tiver dosagem bolar algo depois.
       const modPos = isModificador ? splited[modificadorIndex] : undefined;
 
-      const { posologiaText, quantidade } = posologiaQntText(
+      const { posologiaText, quantidade, quantidadeNumber } = posologiaQntText(
         isSN,
         isTempo,
         isModificador,
@@ -52,6 +68,7 @@ export default async function textToRecFunction(
         splited,
         posologiaText,
         quantidade,
+        quantidadeNumber,
         hyphen: conditionalHyphen(splited[0], dosagem),
       };
     });
@@ -66,6 +83,11 @@ export default async function textToRecFunction(
   isSnArray.forEach((elem) => finalArray.push(elem));
 
   let string = "Uso Oral:\n\n";
+
+  ///se o desjeado for o array e não a string
+  if (returnArray) {
+    return { success: true, arrayOfObj: finalArray };
+  }
 
   if (!receita) {
     finalArray.forEach((element, index) => {
@@ -87,6 +109,7 @@ export default async function textToRecFunction(
     });
 
     receituarioFb("textToRec", text, string);
+
     return { success: true, message: "Tudo certo", output: string };
   } else {
     finalArray.forEach((element, index) => {
@@ -119,7 +142,7 @@ function posologiaQntText(
   posologia: string,
   modPos: string,
   tempo: string
-): { isError: boolean; posologiaText: string; quantidade: string } {
+): { isError: boolean; posologiaText: string; quantidade: string; quantidadeNumber: number } {
   const snText = isSN ? ",em caso de necessidade" : "";
   let tempoText = "";
 
@@ -201,18 +224,23 @@ function posologiaQntText(
   let quantidade = `${result} ${unidade}${plural}/mês. `;
 
   if (isTempo) {
-    const [tempoTextModifier, quantidadeResult] = isTempoModifier(cps, tempo, unitario);
+    const [tempoTextModifier, quantidadeResult, quantidadeNumber] = isTempoModifier(
+      cps,
+      tempo,
+      unitario
+    );
     tempoText = tempoTextModifier;
     quantidade = quantidadeResult;
+    result = quantidadeNumber;
   }
 
   if (isSN) quantidade = `${result} comprimidos. `;
   finalStatement = finalStatement + tempoText + snText;
 
-  return { isError: false, posologiaText: finalStatement, quantidade };
+  return { isError: false, posologiaText: finalStatement, quantidade, quantidadeNumber: result };
 }
 
-function isTempoModifier(cps: number, tempo: string, unitario: number) {
+function isTempoModifier(cps: number, tempo: string, unitario: number): [string, string, number] {
   const result = unitario;
   const num = parseInt(tempo.replace(/[^0-9]/g, ""));
   const dma = tempo.replace(/[^a-z]/g, "");
@@ -229,7 +257,7 @@ function isTempoModifier(cps: number, tempo: string, unitario: number) {
 
   const total = `${num * mult * result * cps} comprimidos`;
 
-  return [`,por ${num} ${string}`, total];
+  return [`,por ${num} ${string}`, total, num * mult * result * cps];
 }
 
 function conditionalHyphen(med: string, dosagem: string) {

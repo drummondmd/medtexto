@@ -1,0 +1,26 @@
+# Robots.txt para Aplicações Next.js/Vercel
+
+# 1. Diretiva para todos os User-Agents (Robôs)
+# O asterisco (*) significa 'aplicar estas regras a todos os robôs (Google, Bing, etc.)'
+User-agent: *
+
+# Permite o rastreamento de todas as páginas por padrão (necessário)
+Allow: /
+
+# URLs que você deseja explicitamente BLOQUEAR para os robôs
+# Use esta seção para evitar o rastreamento de áreas internas ou de baixa qualidade de SEO
+Disallow: /admin/             # Bloqueia qualquer coisa que comece com /admin
+Disallow: /dashboard/         # Bloqueia a área logada do médico
+Disallow: /perfil/            # Bloqueia páginas de perfil/usuário
+Disallow: /configuracoes/     # Bloqueia páginas de configurações
+Disallow: /*?sort=* # Bloqueia URLs com parâmetros de busca (para evitar conteúdo duplicado)
+Disallow: /api/               # Bloqueia o rastreamento dos seus endpoints de API
+
+# 2. Diretiva específica para o Googlebot-Image
+# (Opcional) Permite otimizar o rastreamento de imagens
+User-agent: Googlebot-Image
+Allow: /
+
+# 3. Localização do Sitemap
+# O Google e outros robôs leem esta linha para encontrar automaticamente seu sitemap.
+Sitemap: https://medtexto.app/sitemap.xml

@@ -39,6 +39,7 @@ export default function SideMenu({ userName, modal, closeModal }) {
       <NavLink href={`/${userName}/evolucoes`} name={"Evoluções"} />
       <NavLink href={`/${userName}/resumos`} name={"Resumos"} />
       <NavLink href={`/${userName}/remune`} name={"Remune"} />
+      <NavLink href={`/${userName}/preco-da-receita`} name={"Preço da Receita"} />
       <NavLink href={`/${userName}/perfil-e-configuracoes`} name={"Definições/Preferências"} />
 
       {/* <li className="nav-item p-2"><Link  href={`/${userName}/resumos`}>Calculador de infusões</Link></li> */}

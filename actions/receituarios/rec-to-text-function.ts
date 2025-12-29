@@ -4,6 +4,7 @@ import receituarioFb from "../admin-actions/rec-fb-action";
 
 const quantidadeReference = [
   /(\d+)\s*comprimido(?:s)?\/m[eê]s/i,
+  /(\d+)\s*cp(?:s)?\/m[eê]s/i,
   /(\d+)\s*comprimido(?:\(s\)|s) de (\d+) mg/i,
   /(\d+)\s*comprimido(?:\(s\)|s)/i,
   /(\d+)\s*Unidade(?:\(s\)|s)/i,
@@ -156,6 +157,8 @@ function medReplace(string: string): string {
     .replace(/(\d+)\s*(\)|.|-)/i, "")
     .replace(/besilato/i, "")
     .replace(/equivale a/i, "")
+    .replace(/quantidade/i, "")
+    .replaceAll("_", "-")
     .trim();
 
   for (const frase of quantidadeReference) {
@@ -175,7 +178,9 @@ function medReplace(string: string): string {
 
   let finalString: string = "";
 
-  const splitedString = secondClean.split(" ").filter((elem) => {
+  ///dividir string por espaço e não digito e tirar
+
+  const splitedString = secondClean.split(/[-;:\s]+/).filter((elem) => {
     const regEx = /(?<!\w)\W(?!\w)/i;
     if (elem === "" || regEx.test(elem)) {
       return false;

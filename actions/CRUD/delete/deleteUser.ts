@@ -10,7 +10,7 @@ export default async function deleteUserPgMongo(
       rowCount: number;
     };
     if (pgDelete.rowCount > 0) {
-      await connectToDatabase()
+      await connectToDatabase();
       const mongoDelete = await UsuarioMongo.deleteOne({ user_id: [user_id] });
       if (mongoDelete.acknowledged) {
         return { success: true };

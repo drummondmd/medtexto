@@ -1,3 +1,1 @@
-MongoDB não esta sendo excluido junto com conta
-usuario está sendo criado mesmo sem mongoDB
-link de resetar senha indo errado
+TextoParaReceitaFn( 30 comprimido/mes - singular no lugar de plural)

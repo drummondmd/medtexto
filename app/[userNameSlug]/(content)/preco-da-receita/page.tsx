@@ -37,7 +37,7 @@ export default function Page() {
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Left: Input + actions */}
-        <section className="md:col-span-6 bg-white/60 dark:bg-slate-900/50 p-4 rounded-lg shadow-sm">
+        <section className="md:col-span-6 bg-white/60 p-4 rounded-lg shadow-sm">
           <div className="flex flex-col gap-3">
             <ActionWStatus
               btnTitle="Investigar"

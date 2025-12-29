@@ -28,7 +28,7 @@ export default function ResultadoContainerPrice({ resultados }: { resultados: nu
 
   return (
     <section className="w-full">
-      <header className="flex items-center justify-between bg-white/60 dark:bg-slate-900/50 px-4 py-3 rounded-md shadow-sm mb-4">
+      <header className="flex items-center justify-between bg-white/60 px-4 py-3 rounded-md shadow-sm mb-4">
         <h3 className="text-sm font-semibold text-slate-900">Preço total da receita</h3>
         <div className="text-lg font-bold text-emerald-600">R$ {totalPrice.toFixed(2)}</div>
       </header>

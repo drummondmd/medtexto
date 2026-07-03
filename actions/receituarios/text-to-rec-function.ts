@@ -221,7 +221,7 @@ function posologiaQntText(
     unitario = cpsDia;
   }
 
-  let quantidade = `${result} ${unidade}${plural}/mês. `;
+  let quantidade = `${result} ${unidade}s/mês. `;
 
   if (isTempo) {
     const [tempoTextModifier, quantidadeResult, quantidadeNumber] = isTempoModifier(
@@ -255,7 +255,7 @@ function isTempoModifier(cps: number, tempo: string, unitario: number): [string,
   };
   const { mult, string } = reference[dma];
 
-  const total = `${num * mult * result * cps} comprimidos`;
+  const total = `${num * mult * result * cps} comprimido${num * mult * result * cps > 1 ? "s" : ""}.`;
 
   return [`,por ${num} ${string}`, total, num * mult * result * cps];
 }

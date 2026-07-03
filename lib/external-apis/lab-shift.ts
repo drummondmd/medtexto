@@ -4,7 +4,7 @@ import { DataModel } from "./lab-shif-types";
 import retirarAcentos from "../helpers/retirarAcentos";
 
 const api_key = process.env.API_KEY_LAB_SHIFT;
-const api_url = process.env.API_URL + "lab-shift";
+const api_url = process.env.API_URL + "/lab-shift";
 
 export async function getOrCreateJob(userName: string) {
   const response = await fetch(api_url + "/jobs?user=" + userName, {

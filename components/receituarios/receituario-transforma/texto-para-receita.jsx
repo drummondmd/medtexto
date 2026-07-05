@@ -7,8 +7,6 @@ import ActionWStatus from "@/components/shared/action-w-status/action-w-status";
 import TextAreaWControlContainer from "@/components/shared/text-area-wControl/text-area-container";
 
 export default function TextoParaReceita() {
-  ///mandar e pegar da db depois, talvez nem utilizar
-
   const [text, setText] = useState("");
   const [rec, setRec] = useState("Resultado aparecerá aqui...");
   const [stauts, setStatus] = useState({

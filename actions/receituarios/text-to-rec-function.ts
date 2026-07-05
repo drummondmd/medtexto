@@ -30,107 +30,112 @@ export default async function textToRecFunction(
 ): Promise<{ success: boolean; output?: string; message?: string; arrayOfObj?: ReturninObj[] }> {
   if (!text) return { success: false, message: "Insira valor válido" };
 
-  const array = text
-    .split(/(;|\||(?<!\d),(?!\d))/gi)
-    .filter((elem) => elem != "" && elem.length > 1)
-    .map((string) => {
-      const isSN = snRegEx.test(string);
-      const isTempo = tempoDeterminadoRegEx.test(string);
-      const isModificador = modPosologiaRegEx.test(string);
+  try {
+    const array = text
+      .split(/(;|\||(?<!\d),(?!\d))/gi)
+      .filter((elem) => elem != "" && elem.length > 1)
+      .map((string) => {
+        const isSN = snRegEx.test(string);
+        const isTempo = tempoDeterminadoRegEx.test(string);
+        const isModificador = modPosologiaRegEx.test(string);
 
-      const splited = string.split(" ").filter((elem) => elem != "");
+        const splited = string.split(" ").filter((elem) => elem != "");
 
-      const isTempoIndex = splited.findIndex((elem) => tempoDeterminadoRegEx.test(elem));
-      const posologiaIndex = splited.findIndex((elem) => posologiaRegEx.test(elem));
-      const modificadorIndex = splited.findIndex((elem) => modPosologiaRegEx.test(elem));
-      const dosagem = dosagemRegEx.test(splited[1]) ? splited[1] : splited[1] + splited[2];
-      const tempo = isTempo ? splited[isTempoIndex] : undefined;
-      ///se não tiver dosagem bolar algo depois.
-      const modPos = isModificador ? splited[modificadorIndex] : undefined;
+        const isTempoIndex = splited.findIndex((elem) => tempoDeterminadoRegEx.test(elem));
+        const posologiaIndex = splited.findIndex((elem) => posologiaRegEx.test(elem));
+        const modificadorIndex = splited.findIndex((elem) => modPosologiaRegEx.test(elem));
+        const dosagem = dosagemRegEx.test(splited[1]) ? splited[1] : splited[1] + splited[2];
+        const tempo = isTempo ? splited[isTempoIndex] : undefined;
+        ///se não tiver dosagem bolar algo depois.
+        const modPos = isModificador ? splited[modificadorIndex] : undefined;
 
-      const { posologiaText, quantidade, quantidadeNumber } = posologiaQntText(
-        isSN,
-        isTempo,
-        isModificador,
-        splited[posologiaIndex],
-        modPos,
-        tempo
-      );
+        const { posologiaText, quantidade, quantidadeNumber } = posologiaQntText(
+          isSN,
+          isTempo,
+          isModificador,
+          splited[posologiaIndex],
+          modPos,
+          tempo
+        );
 
-      return {
-        med: medName(splited[0]),
-        dosagem,
-        posologia: splited[posologiaIndex],
-        modPos,
-        tempo,
-        isSN,
-        isTempo,
-        splited,
-        posologiaText,
-        quantidade,
-        quantidadeNumber,
-        hyphen: conditionalHyphen(splited[0], dosagem),
-      };
-    });
+        return {
+          med: medName(splited[0]),
+          dosagem,
+          posologia: splited[posologiaIndex],
+          modPos,
+          tempo,
+          isSN,
+          isTempo,
+          splited,
+          posologiaText,
+          quantidade,
+          quantidadeNumber,
+          hyphen: conditionalHyphen(splited[0], dosagem),
+        };
+      });
 
-  const finalArray = [];
-  const isSnArray = array.filter((elem) => elem.isSN);
-  const mue = array.filter((elem) => elem.isTempo && elem.isSN === false);
-  const muc = array.filter((elem) => !elem.isTempo && !elem.isSN);
+    const finalArray = [];
+    const isSnArray = array.filter((elem) => elem.isSN);
+    const mue = array.filter((elem) => elem.isTempo && elem.isSN === false);
+    const muc = array.filter((elem) => !elem.isTempo && !elem.isSN);
 
-  muc.forEach((elem) => finalArray.push(elem));
-  mue.forEach((elem) => finalArray.push(elem));
-  isSnArray.forEach((elem) => finalArray.push(elem));
+    muc.forEach((elem) => finalArray.push(elem));
+    mue.forEach((elem) => finalArray.push(elem));
+    isSnArray.forEach((elem) => finalArray.push(elem));
 
-  let string = "Uso Oral:\n\n";
+    let string = "Uso Oral:\n\n";
 
-  ///se o desjeado for o array e não a string
-  if (returnArray) {
-    return { success: true, arrayOfObj: finalArray };
-  }
+    ///se o desjeado for o array e não a string
+    if (returnArray) {
+      return { success: true, arrayOfObj: finalArray };
+    }
 
-  if (!receita) {
-    finalArray.forEach((element, index) => {
-      string =
-        string +
-        (index + 1) +
-        ")" +
-        element.med +
-        " " +
-        element.dosagem +
-        " " +
-        element.hyphen +
-        " " +
-        element.quantidade +
-        "\n" +
-        element.posologiaText +
-        ".\n" +
-        "\n";
-    });
+    if (!receita) {
+      finalArray.forEach((element, index) => {
+        string =
+          string +
+          (index + 1) +
+          ")" +
+          element.med +
+          " " +
+          element.dosagem +
+          " " +
+          element.hyphen +
+          " " +
+          element.quantidade +
+          "\n" +
+          element.posologiaText +
+          ".\n" +
+          "\n";
+      });
 
-    receituarioFb("textToRec", text, string);
+      receituarioFb("textToRec", text, string);
 
-    return { success: true, message: "Tudo certo", output: string };
-  } else {
-    finalArray.forEach((element, index) => {
-      string =
-        string +
-        (index + 1) +
-        ")" +
-        element.med +
-        " " +
-        element.dosagem +
-        " " +
-        element.hyphen +
-        " " +
-        element.quantidade +
-        "\n" +
-        element.posologiaText +
-        ".\n" +
-        "\n";
-    });
-    receituarioFb("textToRec", text, string);
-    return { success: true, message: "Tudo certo", output: string };
+      return { success: true, message: "Tudo certo", output: string };
+    } else {
+      finalArray.forEach((element, index) => {
+        string =
+          string +
+          (index + 1) +
+          ")" +
+          element.med +
+          " " +
+          element.dosagem +
+          " " +
+          element.hyphen +
+          " " +
+          element.quantidade +
+          "\n" +
+          element.posologiaText +
+          ".\n" +
+          "\n";
+      });
+      receituarioFb("textToRec", text, string);
+      return { success: true, message: "Tudo certo", output: string };
+    }
+  } catch (error) {
+    console.error("Erro executar função de transformação", error);
+    return { success: false, message: "Erro ao executar função." };
   }
 }
 
@@ -143,7 +148,7 @@ function posologiaQntText(
   modPos: string,
   tempo: string
 ): { isError: boolean; posologiaText: string; quantidade: string; quantidadeNumber: number } {
-  const snText = isSN ? ",em caso de necessidade" : "";
+  const snText = isSN ? ",em caso de necessidade." : "";
   let tempoText = "";
 
   let cps = 1;
@@ -160,13 +165,17 @@ function posologiaQntText(
 
   if (isModificador) {
     const [number, unidadeSplited] = modPos.match(/^(\d+)([a-zA-Z]+)$/).slice(1);
-    if (parseInt(number) != 1) {
-      cps = parseInt(number);
-      plural = "s";
-    }
     if (unidadeSplited != "cp") {
       ///melhorar depois
       unidade = unidadeSplited;
+    }
+    if (parseInt(number)) {
+      cps = parseInt(number);
+      plural = "s";
+    }
+    ///Se unidad for ml retirar s devido por regra do pt-br.
+    if (unidade == "ml") {
+      plural = "";
     }
   }
 
@@ -221,7 +230,7 @@ function posologiaQntText(
     unitario = cpsDia;
   }
 
-  let quantidade = `${result} ${unidade}s/mês. `;
+  let quantidade = `${result} ${unidade}${unidade == "ml" ? "" : "s"}/mês. `;
 
   if (isTempo) {
     const [tempoTextModifier, quantidadeResult, quantidadeNumber] = isTempoModifier(
@@ -234,7 +243,7 @@ function posologiaQntText(
     result = quantidadeNumber;
   }
 
-  if (isSN) quantidade = `${result} comprimidos. `;
+  if (isSN) quantidade = `${result} ${unidade}${plural} `;
   finalStatement = finalStatement + tempoText + snText;
 
   return { isError: false, posologiaText: finalStatement, quantidade, quantidadeNumber: result };

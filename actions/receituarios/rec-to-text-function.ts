@@ -42,54 +42,63 @@ export default async function recToTexFunction(
   input: string
 ): Promise<{ success: boolean; output?: string; message?: string }> {
   if (!input) return { success: false, message: "Insirá um valor" };
-  let isClean: boolean = true;
-  const array = input
-    .split("\n")
-    .filter((elem) => elem != "")
-    .map((elem) => {
-      const isMed = isMedFuncion(elem);
-      const isPos = isPosFunction(elem);
-      const isBoth = isMed != false && isPos != false ? true : false;
-      const isTrash = isMed === false && isPos === false ? true : false;
 
-      if (isBoth) {
-        isClean = false;
-      }
-      return {
-        string: elem,
-        isMed: isMed,
-        isPos: isPos,
-        isBoth: isBoth,
-        isTrash: isTrash,
-      };
-    })
-    .filter((elem) => elem.isTrash === false);
+  try {
+    ///Inicio
+    let isClean: boolean = true;
+    const array = input
+      .split("\n")
+      .filter((elem) => elem != "")
+      .map((elem) => {
+        const isMed = isMedFuncion(elem);
+        const isPos = isPosFunction(elem);
+        const isBoth = isMed != false && isPos != false ? true : false;
+        const isTrash = isMed === false && isPos === false ? true : false;
 
-  ////depois fazer um refinamento do is Clean;
+        if (isBoth) {
+          isClean = false;
+        }
+        return {
+          string: elem,
+          isMed: isMed,
+          isPos: isPos,
+          isBoth: isBoth,
+          isTrash: isTrash,
+        };
+      })
+      .filter((elem) => elem.isTrash === false);
 
-  let transformedArray: Array<string> = [];
+    ////depois fazer um refinamento do is Clean;
 
-  if (isClean) {
-    transformedArray = cleanTransform(array);
+    let transformedArray: Array<string> = [];
+
+    if (isClean) {
+      transformedArray = cleanTransform(array);
+    }
+    if (!isClean) {
+      transformedArray = dirtyTransform(array);
+    }
+
+    ///transformaçao para string
+    let outputString: string = "";
+
+    transformedArray.forEach((elem) => {
+      outputString = outputString.length === 0 ? elem : outputString + " ; " + elem;
+    });
+
+    ////qualityControl.
+    //later
+
+    ///se tudo der certo
+    //feedback
+    receituarioFb("recToText", input, outputString);
+    return { success: true, message: "Funcionte", output: outputString };
+
+    ///final
+  } catch (error) {
+    console.error("Erro ao executar função de transformação", error);
+    return { success: false, message: "Erro ao executar função" };
   }
-  if (!isClean) {
-    transformedArray = dirtyTransform(array);
-  }
-
-  ///transformaçao para string
-  let outputString: string = "";
-
-  transformedArray.forEach((elem) => {
-    outputString = outputString.length === 0 ? elem : outputString + " ; " + elem;
-  });
-
-  ////qualityControl.
-  //later
-
-  ///se tudo der certo
-  //feedback
-  receituarioFb("recToText", input, outputString);
-  return { success: true, message: "Funcionte", output: outputString };
 }
 
 function isMedFuncion(string: string): Array<true> | false {
@@ -208,7 +217,8 @@ function posReplace(string: string): string {
       return regEx.test(string);
     })
   );
-  let codigo = foundPosologia[0] != undefined ? foundPosologia[0] : "q_";
+
+  let codigo = foundPosologia != undefined ? foundPosologia[0] : "q_";
 
   if (isSobDemanda) {
     codigo = codigo + " " + "SN";

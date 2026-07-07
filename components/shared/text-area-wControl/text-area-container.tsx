@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import OcrControl from "@/components/features/bloco-de-notas/ocr-control";
 import useApiMutator from "@/components/hooks/useApiMutation";
@@ -36,22 +36,22 @@ export default function TextAreaWControlContainer({
 
   const { executeMutation, status, setFeedback } = useApiMutator(apiUpdateFunction, "Salvo");
 
-  ///ajuste altura
-  function ajustarAltura() {
-    const ta = textAreaRef.current;
-    if (!ta) return;
-    ta.style.height = "auto"; // limpa tamanho anterior
-    ta.style.height = `${ta.scrollHeight}px`; // ajusta à altura do conteúdo
-  }
+  // ///ajuste altura
+  // function ajustarAltura() {
+  //   const ta = textAreaRef.current;
+  //   if (!ta) return;
+  //   ta.style.height = "auto"; // limpa tamanho anterior
+  //   ta.style.height = `${ta.scrollHeight}px`; // ajusta à altura do conteúdo
+  // }
 
-  // Ajusta ao montar e quando valorInicial muda
-  useEffect(() => {
-    ajustarAltura();
-  }, [initialState]);
+  // // Ajusta ao montar e quando valorInicial muda
+  // useEffect(() => {
+  //   ajustarAltura();
+  // }, [initialState]);
 
   ///onChangeInput
   function onChangeInput(e: any) {
-    ajustarAltura();
+    //ajustarAltura();
     setTextState(e.target.value);
   }
 

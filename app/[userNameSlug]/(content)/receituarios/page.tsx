@@ -35,7 +35,7 @@ export default async function Receituarios({ params }) {
           </div>
         </div>
         <div className="w-full lg:w-1/2">
-          <RecTrasformaGrid />
+          <RecTrasformaGrid userId={user.id} />
         </div>
       </div>
     </div>

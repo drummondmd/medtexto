@@ -3,21 +3,25 @@
 import { useState } from "react";
 
 import textToRecFunction from "@/actions/receituarios/text-to-rec-function";
+import { useDraftStorage } from "@/components/hooks/useDraftStorage";
 import ActionWStatus from "@/components/shared/action-w-status/action-w-status";
 import TextAreaWControlContainer from "@/components/shared/text-area-wControl/text-area-container";
 
-export default function TextoParaReceita() {
-  const [text, setText] = useState("");
+export default function TextoParaReceita({ userId }: { userId: string }) {
   const [rec, setRec] = useState("Resultado aparecerá aqui...");
-  const [stauts, setStatus] = useState({
+  const [status, setStatus] = useState({
     statusCode: "info",
     statusMessage: "Digite medicações no formato acima...",
+  });
+
+  const { value, updateValue } = useDraftStorage({
+    key: userId,
   });
 
   async function handleTextToRec() {
     setStatus({ statusCode: "info", statusMessage: "Transformando..." });
     setRec("...Carregando");
-    const response = await textToRecFunction(text, rec);
+    const response = await textToRecFunction(value, rec);
     if (!response.success) {
       setStatus({ statusCode: "error", statusMessage: response.message });
       setRec("");
@@ -35,16 +39,17 @@ export default function TextoParaReceita() {
           <textarea
             className="form-control"
             placeholder="ex:Losartana 50mg MID ; Amoxicilina 500mg TID 7-d; Dipirona 500mg 2cp ( - se estiver em branco = 1 cp) QID SN; Morfina 10mg q_4(a cada 4 horas) "
-            value={text}
-            onChange={(e) => setText(e.target.value)}
+            value={value}
+            onChange={(e) => updateValue(e.target.value)}
           ></textarea>
         </div>
         <ActionWStatus
           onClick={handleTextToRec}
-          status={stauts}
+          // @ts-ignore
+          status={status}
           btnTitle="Transformar"
           variant="yellow"
-          disableBtn={text.length === 0}
+          disableBtn={value.length === 0}
         />
 
         {/* {error ?? <div>{error}</div>}
@@ -85,6 +90,7 @@ export default function TextoParaReceita() {
             apiUpdateFunction={undefined}
             userId={undefined}
             variant="small"
+            resource={""}
           />
         </div>
       </div>

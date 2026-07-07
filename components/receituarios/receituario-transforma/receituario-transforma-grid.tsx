@@ -2,10 +2,10 @@
 
 import TextoParaReceita from "./texto-para-receita";
 
-export default function RecTrasformaGrid() {
+export default function RecTrasformaGrid({ userId }: { userId: string }) {
   return (
     <div className="mt-5 mt-lg-2">
-      <TextoParaReceita />
+      <TextoParaReceita userId={userId} />
     </div>
   );
 }

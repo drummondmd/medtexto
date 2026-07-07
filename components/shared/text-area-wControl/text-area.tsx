@@ -1,3 +1,4 @@
+import { TextareaAutosize } from "@mui/material";
 import { Ref } from "react";
 
 type Props = {
@@ -10,12 +11,13 @@ type Props = {
 export default function TextArea({ textState, textAreaRef, onChangeInput, variant }: Props) {
   const baseClass =
     " box-border text-base leading-6 w-full border border-gray-300 rounded-lg bg-white shadow-none resize-none outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all";
-  const small = "p-1 min-h-[150px]";
-  const lager = "min-h-[350px] p-3";
+  const small = "p-1 ";
+  const lager = " p-3";
 
   return (
     <div className={variant === "small" ? "my-1" : "my-3"}>
-      <textarea
+      {/* Usando lib Externa para o textarea fazer o resize automatico */}
+      <TextareaAutosize
         ref={textAreaRef}
         spellCheck={true}
         name="temp"
@@ -23,8 +25,10 @@ export default function TextArea({ textState, textAreaRef, onChangeInput, varian
         placeholder="Digite ou cole seu texto aqui..."
         className={`${baseClass} ${variant === "small" ? small : lager}`}
         value={textState}
+        minRows={6}
+        //maxRows={24}
         onChange={onChangeInput}
-      ></textarea>
+      />
     </div>
   );
 }

@@ -18,9 +18,15 @@ export default function LabContainer({ job_id }: { job_id: string }) {
     async (isRestarting: boolean = false) => {
       setLoading(true);
       const api_response = await getJob(job_id, isRestarting);
-      const data = api_response.active_job as ActiveJob;
-      setActiveJob(data);
-      setLoading(false);
+      if (api_response == null) {
+        setActiveJob(null);
+        setLoading(false);
+        alert("Opa, Aconteceu um erro aqui.");
+      } else {
+        const data = api_response.active_job as ActiveJob;
+        setActiveJob(data);
+        setLoading(false);
+      }
     },
     [job_id]
   );

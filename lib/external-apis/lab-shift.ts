@@ -36,7 +36,7 @@ export async function getJob(job_id: string, isRestarting: boolean = false) {
     const json = await response.json();
     return json;
   } else {
-    console.error("ERRO NO GET JOB");
+    console.error("ERRO NO GET JOB", response.status, response);
     return null;
   }
 }

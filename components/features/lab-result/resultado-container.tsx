@@ -97,6 +97,13 @@ export default function ResultadoLabContainer({
                                 <span className="font-medium text-slate-700">Flags:</span>{" "}
                                 {req.has_flag}
                               </p>
+                              <p
+                                onClick={() => navigator.clipboard.writeText(req.num_solicitacao)}
+                                className="hover:cursor-pointer hover:font-bold"
+                              >
+                                <span className="font-medium text-slate-700">Nº Solicitação:</span>{" "}
+                                {req.num_solicitacao}
+                              </p>
                             </div>
                             <ul className="space-y-2 rounded-lg border border-slate-200 bg-white p-3 text-sm">
                               {req.detalhado.map((item) => (

@@ -27,6 +27,7 @@ export interface ReqModel {
   previsao: string;
   first_result: string;
   has_flag: string;
+  num_solicitacao: string;
   requisicao_id: string;
   unidade_cod: string;
   setor_cod: string;
